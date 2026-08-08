@@ -1,0 +1,315 @@
+﻿@model IEnumerable<WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.CHITIETKM>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var currentMaKM = ViewContext.RouteData.Values["makm"] ?? ViewBag.MAKM;
+}
+
+<style>
+    .admin-page-header {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-weight: 300;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .admin-page-header h1 {
+        margin: 0;
+        font-size: 2em;
+        color: #333;
+    }
+
+    .panel-default {
+        border-color: #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .panel-heading.clearfix {
+        background-color: #f7f7f7;
+        border-bottom: 1px solid #eee;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding: 15px;
+    }
+
+    #table-list thead th {
+        background-color: #3498db;
+        color: white;
+        text-transform: uppercase;
+        font-weight: 500;
+        border-bottom: 2px solid #2980b9 !important;
+    }
+
+    #table-list tbody tr:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+    }
+
+    #table-list td:last-child {
+        white-space: nowrap;
+    }
+
+    .btn-back-custom {
+        padding: 6px 15px;
+        font-size: 14px;
+        border-radius: 4px;
+        color: #fff;
+        background-color: #f39c12;
+        border-color: #f39c12;
+        transition: all 0.2s;
+    }
+
+    .btn-back-custom:hover {
+        background-color: #e67e22;
+        border-color: #e67e22;
+        color: #fff;
+    }
+
+    .btn-primary-custom {
+        background-color: #3498db;
+        border-color: #3498db;
+    }
+
+    .btn-primary-custom:hover {
+        background-color: #2980b9;
+        border-color: #2980b9;
+    }
+
+    .alert-container {
+        margin-bottom: 20px;
+    }
+
+    .alert-custom {
+        padding: 15px;
+        border-radius: 8px;
+        font-weight: 600;
+        margin-bottom: 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border: none;
+    }
+
+    .alert-success-custom {
+        background-color: #e6ffe6;
+        color: #28a745;
+        border-left: 5px solid #28a745;
+    }
+
+    .alert-danger-custom {
+        background-color: #fff0f0;
+        color: #dc3545;
+        border-left: 5px solid #dc3545;
+    }
+
+    .popup {
+        display: none;
+        position: fixed;
+        z-index: 1050;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .popup-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 0;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        animation-name: animatetop;
+        animation-duration: 0.4s
+    }
+
+    @@keyframes animatetop {
+        from {
+            top: -300px;
+            opacity: 0
+        }
+
+        to {
+            top: 10%;
+            opacity: 1
+        }
+    }
+
+    .popup-header {
+        position: relative;
+        padding: 10px 16px;
+        background-color: #f0ad4e;
+        color: white;
+    }
+
+    .popup-header h2 {
+        margin: 0;
+        font-size: 1.5em;
+    }
+
+    .close {
+        color: #fff;
+        font-size: 30px;
+        font-weight: bold;
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 8px 15px;
+        line-height: 1;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #e74c3c;
+        text-decoration: none;
+        cursor: pointer;
+        border-radius: 0 8px 0 0;
+    }
+</style>
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="admin-page-header">
+                <h1><i class="fa fa-list"></i> Danh sách Chi tiết Khuyến mãi</h1>
+                <div class="pull-right">
+                    <a class="btn btn-back-custom" title="Quay lại danh sách khuyến mãi" href="~/Admin/Promotion/Index"><i class="fa fa-arrow-left"></i> Quay lại</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="alert-container">
+        @if (ViewBag.message != null)
+        {
+            <div class="alert alert-success-custom alert-custom">@ViewBag.message</div>
+        }
+        @if (ViewBag.error != null)
+        {
+            <div class="alert alert-danger-custom alert-custom">@ViewBag.error</div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <div class="pull-right">
+                        <a class="btn btn-primary btn-primary-custom" title="Thêm chi tiết khuyến mãi mới" href="~/Admin/PromotionDetail/Create@(currentMaKM != null ? "?makm=" + currentMaKM : "")">
+                            <i class="fa fa-plus"></i> Thêm Chi tiết
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table style="width:100%" class="table table-striped table-bordered table-hover" id="table-list">
+                            <thead>
+                                <tr>
+                                    <th>Tên khuyến mãi</th>
+                                    <th>Sản phẩm khuyến mãi</th>
+                                    <th class="text-center">Phần trăm giảm giá</th>
+                                    <th class="text-center"><i class="fas fa-cogs"></i> Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.KHUYENMAI.TENKM</td>
+                                        <td>@item.SANPHAM.TENSP</td>
+                                        <td class="text-center">@item.PHANTRAMKM %</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-info btn-sm" title="Chỉnh sửa" href="~/Admin/PromotionDetail/Update?makm=@item.MAKM&masp=@item.MASP">
+                                                <span class="glyphicon glyphicon-edit"></span> Sửa
+                                            </a>
+                                            <button class="btn btn-danger btn-sm btn-delete-detail" data-makm="@item.MAKM" data-masp="@item.MASP" title="Xóa">
+                                                <span class="glyphicon glyphicon-remove"></span> Xóa
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myDeletePopup" class="popup">
+    <div class="popup-content">
+        <div class="popup-header">
+            <span id="span-close-delete" class="close">&times;</span>
+            <h2 id="hd-popup-content-delete"></h2>
+        </div>
+        <p id="bd-popup-content-delete" style="padding:20px;text-align:center;">
+            <i class="glyphicon glyphicon-warning-sign" style="font-size: 2em; color: #f0ad4e; margin-bottom: 10px; display: block;"></i>
+            ...
+        </p>
+        <div style="text-align:center;padding-bottom:20px;">
+            <button class="btn btn-warning" id="btn-ok-delete"> <i class="fa fa-check"></i> Đồng Ý </button>
+            <button class="btn btn-default" id="btn-cancel-delete"> <i class="fa fa-times"></i> Bỏ Qua </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var makmToDelete = '';
+    var maspToDelete = '';
+    function DeletePopup(header, makm, masp) {
+        makmToDelete = makm;
+        maspToDelete = masp;
+        var popup = $('#myDeletePopup');
+        var hd = $('#hd-popup-content-delete');
+        var bd = $('#bd-popup-content-delete');
+        hd.text(header);
+        bd.html('<i class="glyphicon glyphicon-warning-sign" style="font-size: 2em; color: #f0ad4e; margin-bottom: 10px; display: block;"></i> Bạn có chắc chắn muốn xóa chi tiết khuyến mãi này? Thao tác này không thể hoàn tác!');
+        popup.show();
+    }
+
+    $(document).ready(function () {
+        $('#table-list').on('click', '.btn-delete-detail', function () {
+            var makm = $(this).data('makm');
+            var masp = $(this).data('masp');
+            DeletePopup('Xóa chi tiết khuyến mãi', makm, masp);
+        });
+
+        $('#span-close-delete, #btn-cancel-delete').click(function () {
+            $('#myDeletePopup').hide();
+        });
+
+        $('#btn-ok-delete').click(function () {
+            if (makmToDelete && maspToDelete) {
+                $.ajax(
+                    {
+                        type: 'POST',
+                        url: '/Admin/PromotionDetail/Delete?makm=' + makmToDelete + '&masp=' + maspToDelete,
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.result == true) {
+                                alert("Xóa thành công!");
+                                window.location.reload();
+                            } else {
+                                alert("Xóa thất bại!");
+                            }
+                        },
+                        error: function () {
+                            alert("Có lỗi xảy ra khi gọi AJAX.");
+                        }
+                    });
+                $('#myDeletePopup').hide();
+            }
+        });
+
+        $('#table-list').DataTable({
+            "order": [[0, "asc"]]
+        });
+    });
+</script>

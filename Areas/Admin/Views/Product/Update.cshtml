@@ -1,0 +1,298 @@
+﻿@model WebsiteQLBanDongHo.Areas.Admin.Models.ProductViewModel
+
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #page-wrapper {
+        background-color: #f8fafc;
+        min-height: 100vh;
+    }
+
+    .card {
+        background-color: #fff;
+    }
+
+    .form-label {
+        color: #374151;
+    }
+
+    textarea.auto-resize {
+        resize: none;
+        overflow: hidden;
+        transition: height 0.2s ease;
+    }
+
+    .btn {
+        border-radius: 8px;
+        font-weight: 500;
+    }
+
+    .btn-success {
+        background-color: #198754;
+        border: none;
+    }
+
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: white;
+    }
+</style>
+
+<div id="page-wrapper" class="p-4 bg-light">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-8">
+            <h2 class="fw-bold text-primary mb-0">Chỉnh sửa thông tin sản phẩm</h2>
+        </div>
+        <div class="col-md-4 text-end">
+            <span class="text-success fw-semibold">@ViewBag.message</span>
+        </div>
+    </div>
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body p-4">
+            <form method="post" action="~/Admin/Product/Update" id="form-update" enctype="multipart/form-data">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-8">
+                        <label for="TENSP" class="form-label fw-semibold">Tên sản phẩm</label>
+                        @Html.ValidationMessageFor(model => model.TENSP, "", new { @class = "text-danger small" })
+                        <input type="hidden" id="MASP" name="MASP" value="@Model.MASP" />
+                        <input type="text" class="form-control" id="TENSP" name="TENSP" onblur="validateName()" value="@Model.TENSP" required />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="SOLUONG" class="form-label fw-semibold">Số lượng</label>
+                        @Html.ValidationMessageFor(model => model.SOLUONG, "", new { @class = "text-danger small" })
+                        <input type="number" class="form-control" id="SOLUONG" name="SOLUONG" value="@Model.SOLUONG" min="1" required />
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="MOTA" class="form-label fw-semibold">Mô tả</label>
+                    @Html.ValidationMessageFor(model => model.MOTA, "", new { @class = "text-danger small" })
+                    <textarea class="form-control auto-resize" id="MOTA" name="MOTA" rows="2" required>@Model.MOTA</textarea>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label for="MATH" class="form-label fw-semibold">Thương hiệu</label>
+                        <select id="MATH" name="MATH" class="form-select">
+                            @foreach (var item in ViewBag.ThuongHieu)
+                            {
+                                <option value="@item.MATH">@item.TENTH</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="MALOAISP" class="form-label fw-semibold">Loại sản phẩm</label>
+                        <select id="MALOAISP" name="MALOAISP" class="form-select">
+                            @foreach (var item in ViewBag.LoaiSanPham)
+                            {
+                                <option value="@item.MALOAISP">@item.TENLOAISP</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="DONGIA" class="form-label fw-semibold">Đơn giá (VNĐ)</label>
+                        <input type="number" step="10000" class="form-control" id="DONGIA" name="DONGIA" value="@Model.DONGIA" min="100000" required />
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Hình lớn</label>
+                        @Html.ValidationMessageFor(model => model.HINHLON, "", new { @class = "text-danger small" })
+                        <input type="text" class="form-control mb-2" id="TENHINHLON" name="HINHLON" value="@Model.HINHLON" readonly />
+                        <input type="file" class="form-control" id="HINHLON" accept="image/*" />
+                    </div>
+                    <div class="col-md-8 d-flex align-items-center justify-content-center">
+                        <img id="HINH1" src="~/images/HINHLON/@Model.HINHLON" class="img-fluid border rounded shadow-sm" style="max-height:180px;" />
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4 text-center">
+                        <label class="form-label fw-semibold">Hình nhỏ 1</label>
+                        <input type="hidden" id="HINHNHO" name="HINHNHO" value="@Model.HINHNHO" />
+                        <input type="file" class="form-control mb-2" id="HINHNHO1" name="HINHNHO1" accept="image/*" />
+                        <img id="HINH2" src="~/images/HINHNHO/@Model.HINHNHO/1.jpg" class="img-thumbnail shadow-sm" style="max-height:150px;" />
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <label class="form-label fw-semibold">Hình nhỏ 2</label>
+                        <input type="file" class="form-control mb-2" id="HINHNHO2" name="HINHNHO2" accept="image/*" />
+                        <img id="HINH3" src="~/images/HINHNHO/@Model.HINHNHO/2.jpg" class="img-thumbnail shadow-sm" style="max-height:150px;" />
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <label class="form-label fw-semibold">Hình nhỏ 3</label>
+                        <input type="file" class="form-control mb-2" id="HINHNHO3" name="HINHNHO3" accept="image/*" />
+                        <img id="HINH4" src="~/images/HINHNHO/@Model.HINHNHO/3.jpg" class="img-thumbnail shadow-sm" style="max-height:150px;" />
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="DANHGIA" class="form-label fw-semibold">Đánh giá</label>
+                    @Html.ValidationMessageFor(model => model.DANHGIA, "", new { @class = "text-danger small" })
+                    <textarea class="form-control auto-resize" id="DANHGIA" name="DANHGIA" rows="2" required>@Model.DANHGIA</textarea>
+                </div>
+                <div class="d-flex justify-content-end gap-2">
+                    <button type="submit" class="btn btn-success px-4" id="btn-ok-create">Đồng ý</button>
+                    <button type="button" class="btn btn-outline-danger px-4" id="btn-cancel-create">Bỏ qua</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    var temp1 = '@Model.MALOAISP';
+    $("#MALOAISP option").each(function () {
+        if ($(this).val() == temp1) {
+            $(this).attr("selected", "selected");
+        }
+    });
+
+    var temp2 = '@Model.MATH';
+    $("#MATH option").each(function () {
+        if ($(this).val() == temp2) {
+            $(this).attr("selected", "selected");
+        }
+    });
+
+    function validateName() {
+        var name = $('#TENSP').val();
+
+        if (isEmpty(name)) {
+            $('#TENSP').css("border-color", "red");
+            return false;
+        } else {
+            $('#TENSP').css("border-color", "green");
+        }
+        return true;
+    }
+
+    $("#form-update").submit(function () {
+
+        if ($('#HINHLON').val().length > 0) {
+            Image($('#TENHINHLON').val());
+        }
+        if ($('#HINHNHO1').val().length > 0) {
+            Photo($('#HINHNHO').val(), "1.jpg", "HINHNHO1");
+        }
+        if ($('#HINHNHO2').val().length > 0) {
+            Photo($('#HINHNHO').val(), "2.jpg", "HINHNHO2");
+        }
+        if ($('#HINHNHO3').val().length > 0) {
+            Photo($('#HINHNHO').val(), "3.jpg", "HINHNHO3");
+        }
+    });
+
+    $("#HINHLON").change(function () {
+        readURL(this, 'HINH1');
+    });
+
+    $("#HINHNHO1").change(function () {
+        readURL(this, 'HINH2');
+    });
+
+    $("#HINHNHO2").change(function () {
+        readURL(this, 'HINH3');
+    });
+
+    $("#HINHNHO3").change(function () {
+        readURL(this, 'HINH4');
+    });
+
+    function getFileName(filePath) {
+        return filePath.substr(filePath.lastIndexOf('\\') + 1);
+    };
+
+    function addZero(x, n) {
+        while (x.toString().length < n) {
+            x = "0" + x;
+        }
+        return x;
+    };
+
+    function readURL(input, id) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#' + id).attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
+    function tenhinh() {
+        var d = new Date();
+        var year = d.getFullYear();
+        var mont = addZero(d.getMonth() + 1, 2);
+        var date = addZero(d.getDate(), 2);
+        var h = addZero(d.getHours(), 2);
+        var m = addZero(d.getMinutes(), 2);
+        var s = addZero(d.getSeconds(), 2);
+        var ms = addZero(d.getMilliseconds(), 3);
+        var res = year + mont + date + h + m + s + ms;
+        return res;
+    };
+
+    function Image(tenhinh) {
+        var formData = new FormData();
+        var totalFiles = document.getElementById("HINHLON").files.length;
+        for (var i = 0; i < totalFiles; i++) {
+            var file = document.getElementById("HINHLON").files[i];
+            formData.append("HINHLON", file);
+        }
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Product/PhotoCreate?tenhinh=' + tenhinh,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.result == true) {
+                    alert("upload image success");
+                } else {
+                    alert("upload image hinh lon fail");
+                }
+            },
+            error: function () {
+                alert("upload image fail");
+            }
+        });
+    }
+
+    function Photo(hinhlon, hinhnho, id) {
+        var formData = new FormData();
+        var totalFiles = document.getElementById(id).files.length;
+        for (var i = 0; i < totalFiles; i++) {
+            var file = document.getElementById(id).files[i];
+            formData.append(id, file);
+        }
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Product/PhotoUpdate?hinhlon=' + hinhlon + '&hinhnho=' + hinhnho,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.result == true) {
+                    alert("upload image success");
+                } else {
+                    alert("upload image hinh nho fail");
+                }
+            },
+            error: function () {
+                alert("upload image fail");
+            }
+        });
+    }
+
+    document.querySelectorAll('textarea.auto-resize').forEach(el => {
+        el.style.height = el.scrollHeight + 'px';
+        el.addEventListener('input', () => {
+            el.style.height = 'auto';
+            el.style.height = el.scrollHeight + 'px';
+        });
+    });
+
+    $("#btn-cancel-create").click(function () {
+        window.location.href = '/Admin/Product/Index';
+    });
+</script>

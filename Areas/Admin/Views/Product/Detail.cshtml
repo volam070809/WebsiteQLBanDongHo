@@ -1,0 +1,67 @@
+﻿@model WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.SANPHAM
+
+@{
+    Layout = null;
+    Func<string, string> GetThumbnailPath = (imageName) =>
+    {
+        string fullPath = Server.MapPath($"~/images/HINHNHO/{Model.HINHNHO}/{imageName}");
+        if (System.IO.File.Exists(fullPath))
+        {
+            return Url.Content($"~/images/HINHNHO/{Model.HINHNHO}/{imageName}");
+        }
+        return Url.Content("~/images/placeholder_thumbnail.jpg");
+    };
+}
+
+<div class="container-fluid p-3">
+    <div class="row g-4">
+        <div class="col-md-5 border-end pe-md-4">
+            <div class="text-center mb-4">
+                <div class="card p-2 border shadow-sm">
+                    <img src="~/images/HINHLON/@Model.HINHLON" alt="@Model.TENSP" class="img-fluid rounded" style="max-height: 250px; object-fit: contain;" />
+                </div>
+            </div>
+            <div class="d-flex justify-content-center gap-3 mt-3">
+                <img src="@GetThumbnailPath("1.jpg")" alt="Thumb 1" class="img-thumbnail p-1" width="75" height="55" style="object-fit: cover;" />
+                <img src="@GetThumbnailPath("2.jpg")" alt="Thumb 2" class="img-thumbnail p-1" width="75" height="55" style="object-fit: cover;" />
+                <img src="@GetThumbnailPath("3.jpg")" alt="Thumb 3" class="img-thumbnail p-1" width="75" height="55" style="object-fit: cover;" />
+            </div>
+        </div>
+        <div class="col-md-7 ps-md-4">
+            <h3 class="text-dark mb-1 fw-bold">@Model.TENSP</h3>
+            <span class="badge bg-secondary mb-3">Mã SP: @Model.MASP</span>
+
+            <div class="p-3 bg-light rounded mb-3">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4 text-dark fw-semibold">Thương hiệu:</dt>
+                    <dd class="col-sm-8 fw-bold text-primary">@Model.THUONGHIEU.TENTH</dd>
+                    <dt class="col-sm-4 text-dark fw-semibold">Loại SP:</dt>
+                    <dd class="col-sm-8 fw-bold text-dark">@Model.LOAISANPHAM.TENLOAISP</dd>
+                </dl>
+            </div>
+            <hr class="my-2" />
+            <dl class="row mb-3">
+                <dt class="col-sm-4 text-muted pt-1">Đơn giá:</dt>
+                <dd class="col-sm-8 fw-bolder text-danger fs-4">@String.Format("{0:0,0}", Model.DONGIA) VNĐ</dd>
+                <dt class="col-sm-4 text-muted">Số lượng:</dt>
+                <dd class="col-sm-8 fw-bold text-success">@Model.SOLUONG</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12 mb-4 p-3 border-top pt-3 bg-white rounded shadow-sm">
+            <h5 class="text-primary mb-2 fw-bold"><i class="fas fa-star me-2"></i> Đánh giá</h5>
+            <div class="text-dark fs-6 fst-italic p-2 border-start border-3 border-warning">
+                <i class="fas fa-quote-left text-secondary me-2"></i>
+                <span>@Model.DANHGIA</span>
+                <i class="fas fa-quote-right text-secondary ms-2"></i>
+            </div>
+        </div>
+        <div class="col-12 p-3 border-top pt-3 bg-light rounded">
+            <h5 class="text-primary mb-2 fw-bold"><i class="fas fa-info-circle me-2"></i> Mô tả chi tiết</h5>
+            <div class="text-sm text-break text-secondary p-2" style="max-height: 200px; overflow-y: auto;">
+                @Html.Raw(Model.MOTA)
+            </div>
+        </div>
+    </div>
+</div>

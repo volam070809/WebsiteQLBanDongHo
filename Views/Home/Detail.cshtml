@@ -1,0 +1,194 @@
+﻿@model WebsiteQLBanDongHo.Models.ViewModel.DetailViewModel
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    $(function () {
+        var menu_ul = $('.menu_drop > li > ul');
+        menu_ul.hide();
+        $('.menu_drop > li > a').click(function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $next_ul = $this.next('ul');
+            var $parent_li = $this.parent('li');
+            if (!$this.hasClass('active')) {
+                $parent_li.siblings().find('a.active').removeClass('active').next('ul').slideUp('normal');
+                $this.addClass('active');
+                $next_ul.stop(true, true).slideDown('normal');
+            } else {
+                $this.removeClass('active');
+                $next_ul.stop(true, true).slideUp('normal');
+            }
+        });
+    });
+</script>
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-main">
+            <ol class="breadcrumb">
+                <li><a href="~/Home/Index">Trang Chủ</a></li>
+                <li class="active">Đơn</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="single contact">
+    <div class="container">
+        <div class="single-main">
+            <div class="col-md-9 single-main-left">
+                <div class="sngl-top">
+                    <div class="col-md-5 single-top-left">
+                        <div class="product-gallery">
+                            <div class="main-image">
+                                <img id="mainImage" src="@Url.Content("~/images/HINHNHO/"+Model.Product.Product.HINHNHO+"/1.jpg")" onerror="this.src='@Url.Content("~/images/placeholder_thumbnail.jpg")'" alt="" />
+                            </div>
+                            <div class="thumbnail-list">
+                                <img src="@Url.Content("~/images/HINHNHO/"+Model.Product.Product.HINHNHO+"/1.jpg")" onclick="changeImage(this)" onerror="this.src='@Url.Content("~/images/placeholder_thumbnail.jpg")'" alt="">
+                                <img src="@Url.Content("~/images/HINHNHO/"+Model.Product.Product.HINHNHO+"/2.jpg")" onclick="changeImage(this)" onerror="this.src='@Url.Content("~/images/placeholder_thumbnail.jpg")'" alt="">
+                                <img src="@Url.Content("~/images/HINHNHO/"+Model.Product.Product.HINHNHO+"/3.jpg")" onclick="changeImage(this)" onerror="this.src='@Url.Content("~/images/placeholder_thumbnail.jpg")'" alt="">
+                            </div>
+                        </div>
+                        <script>
+                            const mainImg = document.getElementById('mainImage');
+                            const thumbs = document.querySelectorAll('.thumbnail-list img');
+                            let currentIndex = 0;
+                            let autoSlide;
+                            function changeImage(el) {
+                                mainImg.src = el.src;
+                                thumbs.forEach(img => img.classList.remove('active'));
+                                el.classList.add('active');
+                                currentIndex = Array.from(thumbs).indexOf(el);
+                                mainImg.onerror = () => {
+                                    mainImg.src = '@Url.Content("~/images/placeholder_thumbnail.jpg")';
+                                }
+                            }
+
+                            function startAutoSlide() {
+                                autoSlide = setInterval(() => {
+                                    currentIndex = (currentIndex + 1) % thumbs.length;
+                                    const nextImg = thumbs[currentIndex];
+                                    changeImage(nextImg);
+                                }, 4200);
+                            }
+
+                            function stopAutoSlide() {
+                                clearInterval(autoSlide);
+                            }
+                            thumbs[0].classList.add('active');
+                            startAutoSlide();
+                        </script>
+                    </div>
+                    <div class="col-md-7 single-top-right">
+                        <div class="single-para simpleCart_shelfItem">
+                            <h2>@Model.Product.Product.TENSP</h2>
+                            <p>Khuyến Mãi: @Model.Product.Promotion %</p>
+                            <div class="star-on">
+                                <ul class="star-footer">
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star-half-alt"></i></li>
+                                </ul>
+                                <div class="review"></div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <h5 class="item_price">@String.Format("{0:0,0}", (Model.Product.Product.DONGIA * (1 - (float)Model.Product.Promotion / 100))) VNĐ</h5>
+                            <p>@Model.Product.Product.MOTA</p>
+                            <ul class="tag-men">
+                                <li>
+                                    <span>NHÃN</span>
+                                    <span class="women1">: @Model.Tag,</span>
+                                </li>
+                            </ul>
+                            <a href="~/Cart/AddProduct/@Model.Product.Product.MASP" class="add-cart">THÊM VÀO GIỎ HÀNG</a>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="tabs">
+                    <ul class="menu_drop">
+                        <li class="item3">
+                            <button type="button"><img src="~/images/arrow.png" alt="">Đánh Giá</button>
+                            <ul class="subitem">
+                                <li class="subitem1"><a>@Model.Product.Product.MOTA</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <script>
+                    const tabButtons = document.querySelectorAll('.menu_drop > li > button');
+                    tabButtons.forEach(button => {
+                        button.addEventListener('click', () => {
+                            const parentLi = button.parentElement;
+                            const subitem = parentLi.querySelector('.subitem');
+                            parentLi.classList.toggle('active');
+                            if (subitem.style.display === "block") {
+                                subitem.style.display = "none";
+                            } else {
+                                subitem.style.display = "block";
+                            }
+                        });
+                    });
+                </script>
+                <div class="latestproducts">
+                    <div class="product-one">
+                        @foreach (var item in Model.ListProductsRelative)
+                        {
+                            <div class="col-md-4 product-left p-left">
+                                <div class="product-main simpleCart_shelfItem">
+                                    <a href="@Url.Content("~/Home/Detail/"+item.Product.MASP)" class="mask"><img class="img-responsive zoom-img" src="@Url.Content("~/images/HINHLON/"+item.Product.HINHLON)" alt="" /></a>
+                                    <a href="@Url.Content("~/Home/Detail/"+item.Product.MASP)" class="product-bottom">
+                                        <h3>@item.Product.TENSP</h3>
+                                        <p>Khám Phá Ngay</p>
+                                        <h4><span class="item_price">@String.Format("{0:0,0}", (item.Product.DONGIA * (1 - (float)item.Promotion / 100))) VNĐ</span></h4>
+                                    </a>
+                                    <div class="srch">
+                                        <span>-@item.Promotion %</span>
+                                    </div>
+                                    <a class="item_add" href="~/Cart/AddProduct/@Model.Product.Product.MASP"><i class="fa fa-cart-plus"></i></a>
+                                </div>
+                            </div>
+                        }
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 single-right">
+                <div class="w_sidebar">
+                    <section class="sky-form" style="height: 1050px; overflow: hidden">
+                        <h4>Sản Phẩm Mới</h4>
+                        <div>
+                            <div class="col col-4">
+                                <marquee direction="right" scrollamount="10" onmouseover="this.stop()" onmouseout="this.start()" class="products-marquee">
+                                    @foreach (var item in Model.ListNewProducts)
+                                    {
+                                        <div class="product-left p-left marquee-product-item">
+                                            <div class="product-main simpleCart_shelfItem">
+                                                <a href="@Url.Content("~/Home/Detail/"+item.Product.MASP)" class="mask">
+                                                    <img class="img-responsive zoom-img" src="@Url.Content("~/images/HINHLON/"+item.Product.HINHLON)" alt="" />
+                                                </a>
+                                                <a href="@Url.Content("~/Home/Detail/"+item.Product.MASP)" class="product-bottom">
+                                                    <h3>@item.Product.TENSP</h3>
+                                                    <p>Khám Phá Ngay</p>
+                                                    <h4><span class="item_price">@String.Format("{0:0,0}", item.Product.DONGIA) VNĐ</span></h4>
+                                                </a>
+                                                <a class="item_add" href="~/Cart/AddProduct/@Model.Product.Product.MASP"><i class="fa fa-cart-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    }
+                                </marquee>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

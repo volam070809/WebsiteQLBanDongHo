@@ -1,0 +1,92 @@
+﻿@model WebsiteQLBanDongHo.Areas.Admin.Models.ProductPagerViewModel
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-striped table-product" id="table-list">
+        <thead>
+            <tr>
+                <th>Mã SP</th>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Thương hiệu</th>
+                <th>Loại Sản phẩm</th>
+                <th>Đơn giá (VNĐ)</th>
+                <th style="width: 150px; text-align: center;"><i class="fas fa-cogs"></i> Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Products != null && Model.Products.Any())
+            {
+                foreach (var item in Model.Products)
+                {
+                    <tr>
+                        <td>@item.MASP</td>
+                        <td>@item.TENSP</td>
+                        <td>@item.SOLUONG</td>
+                        <td>@item.THUONGHIEU.TENTH</td>
+                        <td>@item.LOAISANPHAM.TENLOAISP</td>
+                        <td>@String.Format("{0:0,0}", item.DONGIA)</td>
+                        <td class="action-btns text-center">
+                            <button class="btn btn-info btn-sm" onclick="DetailPopup('Chi tiết sản phẩm', @item.MASP)" title="Chi tiết" data-bs-toggle="modal" data-bs-target="#myDetailPopup">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <a class="btn btn-warning btn-sm" title="Chỉnh sửa" href="~/Admin/Product/Update?masp=@item.MASP" target="_blank">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button class="btn btn-danger btn-sm" onclick="DeletePopup('Xóa sản phẩm',@item.MASP)" title="Xóa" data-bs-toggle="modal" data-bs-target="#myDeletePopup">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted p-4">
+                        <i class="fas fa-info-circle me-2"></i> Không có dữ liệu sản phẩm.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<nav aria-label="Page navigation example" class="pagination-container">
+    @if (Model != null && Model.Pager.EndPage > 1)
+    {
+        <ul class="pagination shadow-sm">
+            @if (Model.Pager.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="getListProduct(@(Model.Pager.StartPage)); return false;" title="Trang đầu">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="getListProduct(@(Model.Pager.CurrentPage - 1)); return false;" title="Trang trước">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+            }
+            @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+            {
+                <li class="page-item @(page == Model.Pager.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="#" onclick="getListProduct(@page); return false;">@page</a>
+                </li>
+            }
+            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="getListProduct(@(Model.Pager.CurrentPage + 1)); return false;" title="Trang sau">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="getListProduct(@(Model.Pager.TotalPages)); return false;" title="Trang cuối">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+</nav>

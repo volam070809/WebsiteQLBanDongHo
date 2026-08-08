@@ -1,0 +1,279 @@
+﻿@model IEnumerable<WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.THUONGHIEU>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int counter = 1;
+}
+
+<style>
+    .panel-default {
+        border-color: #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .panel-heading.clearfix {
+        background-color: #f7f7f7;
+        border-bottom: 1px solid #eee;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding: 15px;
+    }
+
+    #table-list thead th {
+        background-color: #3498db;
+        color: white;
+        text-transform: uppercase;
+        font-weight: 500;
+        border-bottom: 2px solid #2980b9 !important;
+    }
+
+    #table-list tbody tr:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+    }
+
+    #table-list td:last-child {
+        white-space: nowrap;
+    }
+
+    #table-list img {
+        display: block;
+        margin: 0 auto;
+        transition: transform 0.3s ease;
+    }
+
+    #table-list img:hover {
+        transform: scale(1.05);
+    }
+
+    .page-header {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+        margin-top: 0;
+        font-weight: 300;
+    }
+
+    .alert-container {
+        margin-bottom: 20px;
+    }
+
+    .alert-custom {
+        padding: 15px;
+        border-radius: 8px;
+        font-weight: 600;
+        margin-bottom: 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border: none;
+    }
+
+    .alert-success-custom {
+        background-color: #e6ffe6;
+        color: #28a745;
+        border-left: 5px solid #28a745;
+    }
+
+    .alert-danger-custom {
+        background-color: #fff0f0;
+        color: #dc3545;
+        border-left: 5px solid #dc3545;
+    }
+    
+    .popup {
+        display: none;
+        position: fixed;
+        z-index: 1050;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .popup-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 0;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        animation-name: animatetop;
+        animation-duration: 0.4s
+    }
+
+    @@keyframes animatetop {
+        from {
+            top: -300px;
+            opacity: 0
+        }
+
+        to {
+            top: 10%;
+            opacity: 1
+        }
+    }
+
+    .popup-header {
+        position: relative;
+        padding: 10px 16px;
+        background-color: #f0ad4e;
+        color: white;
+    }
+
+    .popup-header h2 {
+        margin: 0;
+        font-size: 1.5em;
+    }
+
+    .close {
+        color: #fff;
+        font-size: 30px;
+        font-weight: bold;
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 8px 15px;
+        line-height: 1;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #e74c3c;
+        text-decoration: none;
+        cursor: pointer;
+        border-radius: 0 8px 0 0;
+    }
+</style>
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><i class="fa fa-tags"></i> Danh sách thương hiệu</h1>
+        </div>
+    </div>
+    <div class="alert-container">
+        @if (ViewBag.message != null)
+        {
+            <div class="alert alert-success-custom alert-custom">
+                @ViewBag.message
+            </div>
+        }
+        @if (ViewBag.error != null)
+        {
+            <div class="alert alert-danger-custom alert-custom">
+                @ViewBag.error
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <div class="pull-right">
+                        <a class="btn btn-primary" title="Thêm thương hiệu mới" href="~/Admin/ProductBrand/Create"><i class="fa fa-plus"></i> Thêm Thương hiệu</a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table style="width:100%" class="table table-striped table-bordered table-hover" id="table-list">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Mã TH</th>
+                                    <th>Tên thương hiệu</th>
+                                    <th>Tên hình</th>
+                                    <th class="text-center">Hình thương hiệu</th>
+                                    <th class="text-center"><i class="fas fa-cogs"></i> Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center">@counter</td>
+                                        <td>@item.TENTH</td>
+                                        <td>@item.HINHTH</td>
+                                        <td class="text-center">
+                                            <img src="~/images/HINHTH/@item.HINHTH" width="100" height="60" style="border-radius: 4px; object-fit: cover;" alt="@item.TENTH" />
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-info btn-sm" title="Chỉnh sửa" onclick="window.location.href='@Url.Action("Update", "ProductBrand", new { area = "Admin", math = item.MATH })'">
+                                                <span class="glyphicon glyphicon-edit"></span> Sửa
+                                            </button>
+                                            <button class="btn btn-danger btn-sm btn-delete-brand" data-math="@item.MATH" title="Xóa">
+                                                <span class="glyphicon glyphicon-remove"></span> Xóa
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    counter++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myDeletePopup" class="popup">
+    <div class="popup-content">
+        <div class="popup-header">
+            <span id="span-close-delete" class="close">&times;</span>
+            <h2 id="hd-popup-content-delete"></h2>
+        </div>
+        <p id="bd-popup-content-delete" style="padding:20px;text-align:center;">
+            <i class="glyphicon glyphicon-warning-sign" style="font-size: 2em; color: #f0ad4e; margin-bottom: 10px; display: block;"></i>
+            ...
+        </p>
+        <div style="text-align:center;padding-bottom:20px;">
+            <button class="btn btn-warning" id="btn-ok-delete"> <i class="fa fa-check"></i> Đồng Ý </button>
+            <button class="btn btn-default" id="btn-cancel-delete"> <i class="fa fa-times"></i> Bỏ Qua </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var mathToDelete = 0;
+    function DeletePopup(header, math) {
+        var popup = document.getElementById('myDeletePopup');
+        var a = document.getElementById('hd-popup-content-delete');
+        var b = document.getElementById('bd-popup-content-delete');
+        mathToDelete = math;
+        a.innerText = header;
+        b.innerHTML = '<i class="glyphicon glyphicon-warning-sign" style="font-size: 2em; color: #f0ad4e; margin-bottom: 10px; display: block;"></i> Bạn có chắc chắn muốn xóa thương hiệu ' + math + ' này? Thao tác này không thể hoàn tác!';
+        popup.style.display = "block";
+    }
+
+    $(document).ready(function () {
+        $('.btn-delete-brand').click(function () {
+            var math = $(this).data('math');
+            DeletePopup('Xóa thương hiệu', math);
+        });
+
+        $('#span-close-delete, #btn-cancel-delete').click(function () {
+            $('#myDeletePopup').hide();
+        });
+
+        $('#btn-ok-delete').click(function () {
+            if (mathToDelete > 0) {
+                $('#myDeletePopup').hide();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Delete", "ProductBrand")',
+                    data: { math: mathToDelete },
+                    dataType: 'json',
+                    success: function (response) {
+                        window.location.reload();
+                    },
+                    error: function () {
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+    });
+</script>

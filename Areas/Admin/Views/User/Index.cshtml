@@ -1,0 +1,79 @@
+@model IEnumerable<WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.TAIKHOAN>
+
+@{
+    ViewBag.Title = "Danh sách tài khoản";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-4">Danh sách tài khoản</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Mã</th>
+                <th>Tên đăng nhập</th>
+                <th>Loại tài khoản</th>
+                <th>Trạng thái</th>
+                <th>Ngày đăng ký</th>
+                <th style="width: 230px;">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var u in Model ?? Enumerable.Empty<WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.TAIKHOAN>())
+        {
+            <tr>
+                <td>@u.MATK</td>
+                <td>@u.TENDN</td>
+                <td>@(u.LOAITK != null ? u.LOAITK.TENLOAITK : "")</td>
+                <td>
+                    @if (u.TRANGTHAI == true)
+                    {
+                        <span class="badge bg-success">Hoạt động</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Khoá</span>
+                    }
+                </td>
+                <td>@(u.NGAYDANGKY.HasValue ? u.NGAYDANGKY.Value.ToString("dd/MM/yyyy HH:mm") : "")</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-primary" href="@Url.Action("Edit", new { id = u.MATK })">
+                        <i class="fa-solid fa-pen-to-square"></i> Sửa
+                    </a>
+                    <a class="btn btn-sm btn-outline-warning" href="@Url.Action("ResetPassword", new { id = u.MATK })">
+                        <i class="fa-solid fa-key"></i> Reset
+                    </a>
+                    @{
+                        var session = (WebsiteQLBanDongHo.Common.UserLogin)Session[WebsiteQLBanDongHo.Common.CommonConstands.ADMIN_SESSION];
+                        bool isSelf = session != null && session.UserID == u.MATK;
+                    }
+                    @if (!isSelf)
+                    {
+                        using (Html.BeginForm("Delete", "User", new { id = u.MATK }, FormMethod.Post, new { onsubmit = "return confirm('Xoá tài khoản này?');", style = "display:inline;" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                <i class="fa-solid fa-trash"></i> Xoá
+                            </button>
+                        }
+                    }
+                    else
+                    {
+                        <span class="text-muted small">(Đang đăng nhập)</span>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

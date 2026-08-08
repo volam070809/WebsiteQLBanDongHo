@@ -1,0 +1,180 @@
+﻿@model WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.DONHANG
+
+@{
+    ViewBag.Title = "CreateOrder";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .select2-container .select2-selection--single {
+            height: calc(1.5em + .5rem + 2px);
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: calc(1.5em + .5rem + 2px);
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: calc(1.5em + .5rem + 2px);
+        }
+    </style>
+}
+
+<div class="container-fluid pt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+        <h2 class="h3 text-dark"><i class="fas fa-cart-plus text-success"></i> Tạo Đơn Hàng Mới</h2>
+        @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary shadow-sm" })
+    </div>
+
+    @using (Html.BeginForm("CreateOrder", "Order", FormMethod.Post, new { @class = "form-horizontal needs-validation", novalidate = "novalidate" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "Vui lòng kiểm tra lại các trường thông tin đã nhập.", new { @class = "alert alert-danger" })
+        <div class="card shadow mb-4">
+            <div class="card-header bg-success text-white py-3">
+                <h6 class="m-0 font-weight-bold"><i class="fas fa-user-circle"></i> 1. Thông tin Khách hàng & Vận chuyển</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="font-weight-bold" for="MAKH">Khách hàng <span class="text-danger">(*)</span></label>
+                        @Html.DropDownList("MAKH", null, "--- Chọn Khách hàng (Bắt buộc) ---", new { @class = "form-control form-control-sm customer-select", id = "customer-select", required = "required" })
+                        @Html.ValidationMessageFor(model => model.MAKH, "", new { @class = "text-danger small" })
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="font-weight-bold" for="TRANGTHAI">Trạng thái <span class="text-danger">(*)</span></label>
+                        <select id="TRANGTHAI" name="TRANGTHAI" class="form-control" required>
+                            <option value="chờ kiểm duyệt" selected>Chờ kiểm duyệt</option>
+                            <option value="đang giao hàng">Đang giao hàng</option>
+                            <option value="đã giao">Đã giao</option>
+                            <option value="đã hủy">Đã hủy</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.TRANGTHAI, "", new { @class = "text-danger small" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="font-weight-bold" for="DIACHIGIAO">Địa chỉ giao <span class="text-danger">(*)</span></label>
+                        @Html.EditorFor(model => model.DIACHIGIAO, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập địa chỉ giao hàng", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.DIACHIGIAO, "", new { @class = "text-danger small" })
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="font-weight-bold" for="SDT">Số điện thoại <span class="text-danger">(*)</span></label>
+                        @Html.EditorFor(model => model.SDT, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập số điện thoại", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger small" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="font-weight-bold" for="NGAYDAT">Ngày đặt</label>
+                        @Html.EditorFor(model => model.NGAYDAT, new { htmlAttributes = new { @class = "form-control", type = "date", Value = DateTime.Now.ToString("yyyy-MM-dd") } })
+                        @Html.ValidationMessageFor(model => model.NGAYDAT, "", new { @class = "text-danger small" })
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="font-weight-bold" for="NGAYGIAO">Ngày giao dự kiến</label>
+                        @Html.EditorFor(model => model.NGAYGIAO, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                        @Html.ValidationMessageFor(model => model.NGAYGIAO, "", new { @class = "text-danger small" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label class="font-weight-bold" for="MOTA">Ghi chú (Mô tả)</label>
+                        @Html.TextAreaFor(model => model.MOTA, new { @class = "form-control", rows = 3, placeholder = "Nhập ghi chú hoặc yêu cầu đặc biệt..." })
+                        @Html.ValidationMessageFor(model => model.MOTA, "", new { @class = "text-danger small" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mt-4">
+            <div class="card-header bg-info text-white py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold"><i class="fas fa-box-open"></i> 2. Chi tiết Sản phẩm <span class="text-danger">(*)</span></h6>
+                <button type="button" id="add-product-btn" class="btn btn-outline-light btn-sm"><i class="fas fa-plus"></i> Thêm Sản phẩm</button>
+            </div>
+            <div class="card-body">
+                <div id="product-list">
+                    <div class="product-item row mb-3 align-items-center border-bottom pb-3">
+                        <div class="col-md-7">
+                            <label class="form-label font-weight-bold">Sản phẩm</label>
+                            <select name="mangmasp[]" class="form-control product-select" required="required">
+                                <option value="">--- Chọn Sản phẩm ---</option>
+                                @if (ViewBag.MASP is SelectList selectList)
+                                {
+                                    foreach (var item in selectList)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label font-weight-bold">Số lượng</label>
+                            <input type="number" name="mangsoluong[]" class="form-control" value="1" min="1" required />
+                        </div>
+                        <div class="col-md-2 text-center pt-3">
+                            <button type="button" class="btn btn-danger btn-sm remove-product" title="Xóa sản phẩm"><i class="fas fa-times"></i> Xóa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row mt-4">
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-success btn-lg shadow-lg"><i class="fas fa-save"></i> TẠO ĐƠN HÀNG</button>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#customer-select').select2({
+                theme: 'bootstrap',
+                placeholder: "--- Chọn Khách hàng (Bắt buộc) ---",
+                allowClear: true
+            });
+
+            $('.product-select').select2({
+                theme: 'bootstrap',
+                placeholder: "--- Chọn Sản phẩm ---",
+                allowClear: true
+            });
+
+            var firstProductItem = $('#product-list .product-item').first();
+            firstProductItem.find('.product-select').select2('destroy');
+            var originalProductItemHtml = firstProductItem.clone();
+            originalProductItemHtml.find('.product-select').val('');
+            originalProductItemHtml.find('input[name="mangsoluong[]"]').val(1);
+            $('.product-select').first().select2({
+                theme: 'bootstrap',
+                placeholder: "--- Chọn Sản phẩm ---",
+                allowClear: true
+            });
+
+
+            $('#add-product-btn').click(function () {
+                var newProductItem = originalProductItemHtml.clone();
+                var newSelect = newProductItem.find('.product-select');
+                $('#product-list').append(newProductItem);
+                newSelect.select2({
+                    theme: 'bootstrap',
+                    placeholder: "--- Chọn Sản phẩm ---",
+                    allowClear: true
+                });
+            });
+
+            $('#product-list').on('click', '.remove-product', function () {
+                if ($('#product-list .product-item').length > 1) {
+                    $(this).closest('.product-item').find('.product-select').select2('destroy');
+                    $(this).closest('.product-item').remove();
+                } else {
+                    alert('Đơn hàng phải có ít nhất một sản phẩm!');
+                }
+            });
+        });
+    </script>
+}

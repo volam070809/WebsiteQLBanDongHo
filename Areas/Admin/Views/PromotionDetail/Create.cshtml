@@ -1,0 +1,191 @@
+﻿@model WebsiteQLBanDongHo.Areas.Admin.Models.PromotionDetailViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .centered-panel-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+
+    .panel-primary {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .panel-body {
+        padding-top: 25px;
+        padding-bottom: 30px;
+    }
+
+    .page-header {
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+        color: #2c3e50;
+        font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .page-header h1 {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 2em;
+    }
+
+    .form-content-wrapper {
+        padding: 0 15px;
+    }
+
+    .control-label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+        display: block;
+        font-size: 0.95em;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #2ecc71;
+        box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.2);
+        outline: none;
+    }
+
+    .text-danger {
+        font-size: 0.85em;
+        color: #dc3545 !important;
+    }
+
+    .action-buttons {
+        text-align: center;
+        border-top: 1px solid #eee;
+        padding-top: 30px;
+        margin-top: 30px;
+    }
+
+    .btn-lg-custom {
+        padding: 12px 30px;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        margin: 0 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-success {
+        background-color: #2ecc71;
+        border-color: #2ecc71;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #27ae60;
+        border-color: #27ae60;
+        box-shadow: 0 6px 10px rgba(46, 204, 113, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .btn-danger-custom {
+        background-color: #e74c3c;
+        border-color: #e74c3c;
+        color: white;
+    }
+
+    .btn-danger-custom:hover {
+        background-color: #c0392b;
+        border-color: #c0392b;
+        box-shadow: 0 6px 10px rgba(231, 76, 60, 0.3);
+        transform: translateY(-2px);
+    }
+</style>
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h1><i class="fa fa-tag"></i> Thêm mới Chi tiết Khuyến mãi</h1>
+                <p style="color:green; font-weight: bold; text-align: right; margin: 0;">@ViewBag.message</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="centered-panel-container">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <form method="post" action="~/Admin/PromotionDetail/Create">
+                            <div class="form-content-wrapper">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="control-label">Chọn Khuyến mãi (*)</label>
+                                            @Html.ValidationMessageFor(model => model.MAKM, "", new { @class = "text-danger" })
+                                            <select id="MAKM" name="MAKM" class="form-control" required>
+                                                <option value="">-- Chọn Khuyến mãi --</option>
+                                                @foreach (var item in ViewBag.KHUYENMAIx)
+                                                {
+                                                    <option value="@item.MAKM" @(Model.MAKM == item.MAKM ? "selected" : "")> @item.TENKM </option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="control-label">Chọn Sản phẩm (*)</label>
+                                            @Html.ValidationMessageFor(model => model.MASP, "", new { @class = "text-danger" })
+                                            <select id="MASP" name="MASP" class="form-control" required>
+                                                <option value="">-- Chọn Sản phẩm --</option>
+                                                @foreach (var item in ViewBag.SANPHAMx)
+                                                {
+                                                    <option value="@item.MASP" @(Model.MASP == item.MASP ? "selected" : "")> @item.TENSP </option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="control-label">Phần trăm giảm giá (*)</label>
+                                            @Html.ValidationMessageFor(model => model.PHANTRAMKM, "", new { @class = "text-danger" })
+                                            <input type="number" class="form-control" id="PHANTRAMKM" name="PHANTRAMKM" placeholder="Nhập % giảm (0-100)" required value="@Model.PHANTRAMKM" min="0" max="100" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-success btn-lg-custom" id="btn-ok-create" type="submit"><i class="fa fa-check-circle"></i> Đồng Ý </button>
+                                <a href="~/Admin/PromotionDetail/Index@(Model.MAKM != null ? "?makm=" + Model.MAKM : "")" class="btn btn-danger-custom btn-lg-custom" id="btn-cancel-create"><i class="fa fa-times-circle"></i> Bỏ Qua</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var preselectedMakm = '@Model.MAKM';
+        if (preselectedMakm) {
+            $('#MAKM').val(preselectedMakm).trigger('change');
+        }
+    });
+
+    $('#PHANTRAMKM').on('input', function() {
+        var value = parseInt($(this).val());
+        if (value < 0 || value > 100) {
+            $(this).css("border-color", "red");
+        } else {
+            $(this).css("border-color", "#ccc");
+        }
+    });
+</script>

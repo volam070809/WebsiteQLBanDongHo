@@ -1,0 +1,121 @@
+﻿@model WebsiteQLBanDongHo.Models.Models.Cart
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/css/cart.css" rel="stylesheet" />
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-main">
+            <ol class="breadcrumb">
+                <li><a href="~/Home/Index">Trang Chủ</a></li>
+                <li class="active">Thủ Tục Thanh Toán</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="ckeckout">
+    <div class="container">
+        <div class="ckeck-top heading">
+            <h2>XE ĐẨY</h2>
+        </div>
+        <div class="ckeckout-top">
+            <div class="cart-items">
+                <h3>Túi Mua Sắm Của Tôi (@Model.GetList().Count)</h3>
+                <br />
+                <ul>
+                    @foreach (var mes in Model.Message)
+                    { 
+                        <li>@mes.ToString()</li>
+                    }
+                </ul>
+                <div class="head_bag">
+                    <ul>
+                        <li><span>Ảnh</span></li>
+                        <li><span>Tên Sản Phẩm</span></li>
+                        <li><span>Giá</span></li>
+                        <li><span>Số</span></li>
+                        <li><span>Xoá</span></li>
+                    </ul>
+                </div>
+                @foreach (var item in Model.GetList())
+                {
+                    string data_id = item.Product.MASP.ToString();
+                    <div class="item" id="@data_id">
+                        <div style="width:20%;float:left;padding:10px;">
+                            <a href="#"><img src="@Url.Content("~/images/HINHLON/" + item.Product.HINHLON)" style="width:30%;height:95px;" alt=""></a>
+                        </div>
+                        <ul>
+                            <li><span>@item.Product.TENSP</span></li>
+                            <li><span>@String.Format("{0:0,0}", (item.Product.DONGIA * (1 - ((float)item.Promotion / 100)))) VNĐ</span></li>
+                            <li><span><input type="number" value="@item.Quantity" class="number" data-id="@data_id" min="1" /></span></li>
+                            <li><span><input type="button" value="X" class="delete" data-id="@data_id" /></span></li>
+                        </ul>
+                    </div>
+                }
+                <div><span style="font-size:2em;" id="total">Tổng Cộng: @String.Format("{0:0,0}", Model.TotalMoney()) VNĐ</span></div>
+                <a class="button-buy" href="@Url.Action("Checkout","Cart")">Thanh Toán</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            const urlDelete = '@Url.Action("DeleteProduct", "Cart")';
+            const urlUpdate = '@Url.Action("UpdateProduct", "Cart")';
+
+            $('.delete').on('click', function () {
+                var Id = $(this).attr('data-id');
+                $.ajax({
+                    url: urlDelete,
+                    type: 'POST',
+                    dataType: 'html',
+                    data: { id: Id }
+                }).done(function (ketqua) {
+                    $('#total').html(ketqua);
+                });
+
+                $('#' + Id).fadeOut('slow', function () {
+                    $('#' + Id).remove();
+                });
+            });
+
+            $('.number').on('change mouseup keyup', function () {
+                var $input = $(this);
+                var Id = $input.attr('data-id');
+                var val = parseInt($input.val() || '1');
+                if (isNaN(val) || val < 1) val = 1;
+                $input.val(val);
+
+                $.ajax({
+                    url: urlUpdate,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { id: Id, sl: val }
+                }).done(function (res) {
+                    if (res && res.totalText) {
+                        $('#total').html(res.totalText);
+                    }
+                    if (res && res.success === false) {
+                        if (res.message) alert(res.message);
+                        if (typeof res.appliedQuantity !== 'undefined') {
+                            // Đồng bộ lại số lượng theo tồn kho thực tế
+                            if (res.appliedQuantity <= 0) {
+                                $('#' + Id).fadeOut('slow', function () {
+                                    $('#' + Id).remove();
+                                });
+                            } else {
+                                $input.val(res.appliedQuantity);
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

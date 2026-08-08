@@ -1,0 +1,204 @@
+﻿/* ============ LUXURY ADMIN DASHBOARD ============ */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+    --gold: #d4af37;
+    --dark-bg: #0f0f0f;
+    --dark-bg-2: #1a1a1a;
+    --text-muted: #bfbfbf;
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f6f6f6;
+    overflow-x: hidden;
+}
+
+/* --- SIDEBAR --- */
+#sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, var(--dark-bg) 0%, var(--dark-bg-2) 100%);
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.4);
+    transition: var(--transition);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1050;
+}
+
+#sidebar.active {
+    margin-left: -260px;
+}
+
+#sidebar .sidebar-header {
+    padding: 1.5rem 1rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    text-align: center;
+}
+
+#sidebar .sidebar-header h5 {
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+/* Sidebar menu */
+.sidebar-menu {
+    margin-top: 1rem;
+}
+
+.sidebar-menu li {
+    list-style: none;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-menu a {
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.2rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.sidebar-menu a i {
+    color: var(--gold);
+    width: 25px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.sidebar-menu a:hover {
+    background: rgba(212, 175, 55, 0.15);
+    color: #fff;
+    transform: translateX(6px);
+}
+
+.sidebar-menu .active > a {
+    background: linear-gradient(90deg, var(--gold) 0%, #b78b2f 100%);
+    color: #000;
+    font-weight: 600;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+}
+
+.sidebar-menu .active > a i {
+    color: #000 !important;
+}
+
+.text-gold {
+    color: var(--gold) !important;
+}
+
+/* --- NAVBAR --- */
+.navbar {
+    background: linear-gradient(90deg, var(--dark-bg), var(--dark-bg-2));
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    height: 60px;
+    z-index: 1040;
+}
+
+.navbar-brand {
+    color: var(--gold) !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.navbar .nav-link {
+    color: var(--text-muted) !important;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+    color: var(--gold) !important;
+}
+
+#sidebarToggle {
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-size: 1.4rem;
+    transition: transform 0.3s ease;
+}
+
+#sidebarToggle:hover {
+    transform: rotate(90deg);
+}
+
+/* --- MAIN CONTENT --- */
+#content {
+    margin-left: 260px;
+    transition: var(--transition);
+    min-height: 100vh;
+}
+
+#content.active {
+    margin-left: 0;
+}
+
+main {
+    background: #f5f5f5;
+    border-radius: 20px 0 0 0;
+    padding: 2rem;
+    color: #333;
+    transition: var(--transition);
+}
+
+/* --- DROPDOWNS --- */
+.dropdown-menu {
+    border: none;
+    border-radius: 10px;
+    background: #1a1a1a;
+    color: #fff;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.dropdown-item {
+    color: #ccc;
+}
+
+.dropdown-item:hover {
+    background: rgba(212, 175, 55, 0.15);
+    color: var(--gold);
+}
+
+/* --- SCROLLBAR --- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: #111;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.rotate-icon {
+    transition: transform 0.3s ease;
+}
+
+.rotate-icon.rotate {
+    transform: rotate(180deg);
+}

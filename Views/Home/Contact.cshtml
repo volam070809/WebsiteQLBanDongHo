@@ -1,0 +1,222 @@
+﻿﻿@model WebsiteQLBanDongHo.Models.ViewModel.ContactViewModel
+
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <style>
+        .contact {
+            background: #f9fafb;
+            padding: 60px 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #333;
+        }
+
+        .contact .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .contact-top h2 {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #0d6efd;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        .contact-text {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .contact-left {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .address {
+            margin-bottom: 25px;
+        }
+
+        .address h5 {
+            font-size: 18px;
+            color: #0d6efd;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .address p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .address a {
+            color: #0d6efd;
+            text-decoration: none;
+        }
+
+        .address a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-right {
+            flex: 2;
+            min-width: 300px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .contact-right input[type="text"],
+        .contact-right input[type="email"],
+        .contact-right textarea {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: #fafafa;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        .contact-right input:focus,
+        .contact-right textarea:focus {
+            border-color: #0d6efd;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(13,110,253,0.1);
+        }
+
+        .contact-right textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            text-align: right;
+        }
+
+        .submit-btn input[type="submit"] {
+            background: #0d6efd;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .submit-btn input[type="submit"]:hover {
+            background: #0b5ed7;
+            transform: translateY(-2px);
+        }
+
+        .validation {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .map {
+            margin-top: 50px;
+        }
+
+        .map iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-main">
+            <ol class="breadcrumb">
+                <li><a href="~/Home/Index">Trang Chủ</a></li>
+                <li class="active">Liên Hệ</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="contact">
+    <div class="container">
+        <div class="contact-top heading">
+            <h2>LIÊN HỆ</h2>
+        </div>
+        <div class="contact-text">
+            <div class="col-md-3 contact-left">
+                <div class="address">
+                    <h5>Địa Chỉ</h5>
+                    <p>
+                        Tên Công Ty,
+                        <span>Mark Nova,</span>
+                        Hẻm 21 Đặng Tất, Đường Thủ Khoa Huân, Phường Phú Thủy, Thành Phố Phan Thiết, Tỉnh Lâm Đồng.
+                    </p>
+                </div>
+                <div class="address">
+                    <h5>Số Điện Thoại</h5>
+                    <p>
+                        Tel: +84 942 435 700,
+                        <span>Fax: 190-4509-494</span>
+                        Email: <a href="nguyenhaithanhptbt@gmail.com">nguyenhaithanhptbt@gmail.com</a>
+                    </p>
+                </div>
+                <div class="address">
+                    <h5>Trung Tâm Bảo Hành</h5>
+                    <p>
+                        Tel: +84 181 348 905,
+                        <span>Địa chỉ bảo hành: 345 Thủ Khoa Huân, Phường Phan Thiết, Tỉnh Lâm Đồng</span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-9 contact-right">
+                @using (Html.BeginForm("Contact", "Home", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(false, "", new { @class = "validation" })
+
+                    @Html.TextBoxFor(m => m.Name, new { placeholder = "Tên", required = "" })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "validation" })
+
+                    @Html.TextBoxFor(m => m.Phone, new { placeholder = "Điện Thoại", required = "" })
+                    @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "validation" })
+
+                    <br /><br />
+
+                    @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", required = "" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "validation" })
+
+                    @Html.TextAreaFor(m => m.Content, new { placeholder = "Mô Tả", required = "" })
+                    @Html.ValidationMessageFor(m => m.Content, "", new { @class = "validation" })
+
+                    <div class="submit-btn">
+                        <input type="submit" value="Gửi">
+                    </div>
+                }
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<div class="map">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d195566.8933863427!2d108.0091400874505!3d10.897653070724242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3176830f876e16e5%3A0x2a82c373d3a16cc8!2zUGhhbiBUaGlldCwgQsOsbmggVGh14bqtbiwgVmlldG5hbQ!5e1!3m2!1sen!2s!4v1762837436578!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>

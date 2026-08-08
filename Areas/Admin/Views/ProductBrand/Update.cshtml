@@ -1,0 +1,255 @@
+﻿@model WebsiteQLBanDongHo.Areas.Admin.Models.ProductBrandViewModel
+
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .centered-panel-container {
+        max-width: 600px;
+        margin: 0 auto 100px auto;
+        padding: 0 15px;
+    }
+
+    .panel-primary {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .panel-body {
+        padding: 40px 25px 30px 25px;
+    }
+
+    .page-header {
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+        color: #2c3e50;
+        font-weight: 500;
+    }
+
+    .control-label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+        display: block;
+        font-size: 0.95em;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #2ecc71;
+        box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.2);
+        outline: none;
+    }
+
+    input[type="file"] {
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    .image-preview-area {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px dashed #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        text-align: center;
+        min-height: 150px;
+    }
+
+    #HINH {
+        max-width: 100%;
+        height: auto;
+        max-height: 120px;
+        display: block;
+        margin: 10px auto 0;
+        border: 1px solid #ddd;
+        padding: 3px;
+        border-radius: 4px;
+    }
+
+    .message-container {
+        text-align: center;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    .action-buttons {
+        text-align: right;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+        margin-top: 30px;
+    }
+
+    .btn-lg {
+        padding: 10px 25px;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        margin-left: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-success {
+        background-color: #2ecc71;
+        border-color: #2ecc71;
+    }
+
+    .btn-success:hover {
+        background-color: #27ae60;
+        border-color: #27ae60;
+        box-shadow: 0 6px 10px rgba(46, 204, 113, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        border-color: #e74c3c;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background-color: #c0392b;
+        border-color: #c0392b;
+        box-shadow: 0 6px 10px rgba(231, 76, 60, 0.3);
+        transform: translateY(-2px);
+    }
+</style>
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><i class="fa fa-pencil"></i> Chỉnh sửa thương hiệu</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="centered-panel-container">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <div class="message-container">
+                            <p style="color:green;">@ViewBag.message</p>
+                        </div>
+                        <form method="post" action="~/Admin/ProductBrand/Update" id="form-update">
+                            <input type="hidden" id="MATH" name="MATH" value="@Model.MATH" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Tên thương hiệu (*)</label>
+                                        @Html.ValidationMessageFor(model => model.TENTH, "", new { @class = "text-danger" })
+                                        <input type="text" class="form-control" id="TENTH" name="TENTH" placeholder="Nhập tên thương hiệu" value="@Model.TENTH" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Hình thương hiệu (*)</label>
+                                        @Html.ValidationMessageFor(model => model.HINHTH, "", new { @class = "text-danger" })
+                                        <input type="text" class="form-control" id="TENHINHTH" name="HINHTH" placeholder="Tên file hiện tại" value="@Model.HINHTH" readonly style="margin-bottom: 10px;" />
+                                        <input type="file" class="form-control" id="HINHTH" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="image-preview-area">
+                                        <label class="control-label" style="font-weight: normal; margin-bottom: 0;">Ảnh xem trước hiện tại:</label><br />
+                                        <img src="~/images/HINHTH/@Model.HINHTH" alt="Hình thương hiệu" id="HINH" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <a href="~/Admin/ProductBrand/Index" class="btn btn-danger btn-lg" id="btn-cancel-update"><i class="fa fa-times-circle"></i> Bỏ Qua</a>
+                                <button class="btn btn-success btn-lg" id="btn-ok-update" type="submit"><i class="fa fa-check-circle"></i> Đồng Ý</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function tenhinh() {
+        var d = new Date();
+        var year = d.getFullYear();
+        var mont = addZero(d.getMonth() + 1, 2);
+        var date = addZero(d.getDate(), 2);
+        var h = addZero(d.getHours(), 2);
+        var m = addZero(d.getMinutes(), 2);
+        var s = addZero(d.getSeconds(), 2);
+        var ms = addZero(d.getMilliseconds(), 3);
+        var res = year + mont + date + h + m + s + ms;
+        var filename = getFileName($('#HINHTH').val());
+        var extendFile = filename.split('.').pop();
+        return res + "." + extendFile;
+    };
+
+    $("#form-update").submit(function (e) {
+        if ($('#HINHTH').val().length > 0) {
+            var newFileName = tenhinh();
+            $('#TENHINHTH').val(newFileName);
+            Image(newFileName);
+        }
+    });
+
+    $("#HINHTH").change(function () {
+        readURL(this);
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#HINH').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
+
+    function getFileName(filePath) {
+        return filePath.substr(filePath.lastIndexOf('\\') + 1);
+    };
+
+    function addZero(x, n) {
+        while (x.toString().length < n) {
+            x = "0" + x;
+        }
+        return x;
+    };
+
+    function Image(tenhinh) {
+        var formData = new FormData();
+        var totalFiles = document.getElementById("HINHTH").files.length;
+        for (var i = 0; i < totalFiles; i++) {
+            var file = document.getElementById("HINHTH").files[i];
+            formData.append("HINHTH", file);
+        }
+        $.ajax({
+            type: "POST",
+            url: '/Admin/ProductBrand/PhotoCreate?tenhinh=' + tenhinh,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            async: false,
+            success: function (data) {
+                if (data.result == true) {
+                } else {
+                    alert("Tải ảnh thất bại! Vui lòng thử lại.");
+                }
+            },
+            error: function () {
+                alert("Lỗi kết nối khi tải ảnh.");
+            }
+        });
+    }
+</script>

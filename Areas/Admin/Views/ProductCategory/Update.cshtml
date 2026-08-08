@@ -1,0 +1,173 @@
+﻿@model WebsiteQLBanDongHo.Areas.Admin.Models.ProductCategoryViewModel
+
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .centered-panel-container {
+        max-width: 600px;
+        margin: 0 auto 100px auto;
+        padding: 0 15px;
+    }
+
+    .panel-primary {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .panel-body {
+        padding: 40px 25px 30px 25px;
+    }
+
+    .page-header {
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+        color: #2c3e50;
+        font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .page-header h1 {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 2em;
+    }
+
+    .control-label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+        display: block;
+        font-size: 0.95em;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #2ecc71;
+        box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.2);
+        outline: none;
+    }
+
+    .text-danger {
+        font-size: 0.85em;
+    }
+
+    .message-container {
+        text-align: center;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    .action-buttons {
+        text-align: right;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+        margin-top: 30px;
+    }
+
+    .btn-lg-custom {
+        padding: 10px 25px;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        margin-left: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-success {
+        background-color: #2ecc71;
+        border-color: #2ecc71;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #27ae60;
+        border-color: #27ae60;
+        box-shadow: 0 6px 10px rgba(46, 204, 113, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .btn-danger-custom {
+        background-color: #e74c3c;
+        border-color: #e74c3c;
+        color: white;
+    }
+
+    .btn-danger-custom:hover {
+        background-color: #c0392b;
+        border-color: #c0392b;
+        box-shadow: 0 6px 10px rgba(231, 76, 60, 0.3);
+        transform: translateY(-2px);
+    }
+</style>
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h1><i class="fa fa-folder-open"></i> Chỉnh sửa loại sản phẩm</h1>
+                <p style="color:green; font-weight: bold; text-align: right; margin: 0;">@ViewBag.message</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="centered-panel-container">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <form method="post" action="~/Admin/ProductCategory/Update" id="form-update">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <input type="hidden" id="MALOAISP" name="MALOAISP" value="@Model.MALOAISP" />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Mã loại sản phẩm</label>
+                                        @Html.ValidationMessageFor(model => model.MALOAISP, "", new { @class = "text-danger" })
+                                        <input type="text" class="form-control" placeholder="Mã loại sản phẩm" value="@Model.MALOAISP" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label class="control-label">Tên Loại sản phẩm (*)</label>
+                                        @Html.ValidationMessageFor(model => model.TENLOAISP, "", new { @class = "text-danger" })
+                                        <input type="text" class="form-control" id="TENLOAISP" name="TENLOAISP" placeholder="Nhập tên loại sản phẩm" value="@Model.TENLOAISP" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <a href="~/Admin/ProductCategory/Index" class="btn btn-danger-custom btn-lg-custom" id="btn-cancel-update"><i class="fa fa-times-circle"></i> Bỏ Qua</a>
+                                <button class="btn btn-success btn-lg-custom" id="btn-ok-update" type="submit"><i class="fa fa-check-circle"></i> Đồng Ý</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function validateName() {
+            var name = $('#MALOAISP').val();
+            if (name.trim() === "") {
+                $('#MALOAISP').css("border-color", "red");
+                return false;
+            } else {
+                $('#MALOAISP').css("border-color", "green");
+            }
+            return true;
+        }
+    });
+</script>

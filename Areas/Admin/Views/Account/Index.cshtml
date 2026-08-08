@@ -1,0 +1,116 @@
+﻿@model WebsiteQLBanDongHo.Areas.Admin.Models.AccountSettingsViewModel
+
+@{
+    ViewBag.Title = "Thông tin người dùng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0"><i class="fa-solid fa-circle-user me-2"></i>THÔNG TIN TÀI KHOẢN</h5>
+    </div>
+    <div class="card-body">
+        @if (Model != null)
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4 text-muted">Mã tài khoản:</dt>
+                        <dd class="col-sm-8">#@Model.MATK</dd>
+                        <dt class="col-sm-4 text-muted">Tên đăng nhập:</dt>
+                        <dd class="col-sm-8 text-primary fw-bold">@Model.TENDN</dd>
+                        <dt class="col-sm-4 text-muted">Loại tài khoản:</dt>
+                        <dd class="col-sm-8"><span class="badge bg-success">@Model.LOAITK</span></dd>
+                        <dt class="col-sm-4 text-muted">Trạng thái:</dt>
+                        <dd class="col-sm-8">@(Model.TRANGTHAI ?? false ? "Hoạt động" : "Bị khóa")</dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4 text-muted">Tên người dùng:</dt>
+                        <dd class="col-sm-8">@Model.TENKH</dd>
+                        <dt class="col-sm-4 text-muted">Email:</dt>
+                        <dd class="col-sm-8">@Model.EMAIL</dd>
+                        <dt class="col-sm-4 text-muted">Số điện thoại:</dt>
+                        <dd class="col-sm-8">@Model.SDT</dd>
+                        <dt class="col-sm-4 text-muted">Ngày đăng ký:</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.NGAYDANGKY.HasValue)
+                            {
+                                @Model.NGAYDANGKY.Value.ToString("dd/MM/yyyy")
+                            }
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <h6 class="mt-4 border-bottom pb-2">Thông tin liên hệ</h6>
+            <dl class="row">
+                <dt class="col-sm-2 text-muted">Giới tính:</dt>
+                <dd class="col-sm-10">@Model.GIOITINH</dd>
+                <dt class="col-sm-2 text-muted">Địa chỉ:</dt>
+                <dd class="col-sm-10">@Model.DIACHI</dd>
+            </dl>
+            <div class="mt-4 text-end">
+                <a href="@Url.Action("Settings", "Account")" class="btn btn-warning">
+                    <i class="fa-solid fa-pen-to-square me-1"></i> Chỉnh sửa thông tin
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">
+                Không thể tải thông tin tài khoản. Vui lòng kiểm tra lại session hoặc CSDL.
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        border-radius: 12px 12px 0 0;
+        background: linear-gradient(90deg, #4e73df, #224abe);
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    dl dt {
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    dl dd {
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .badge.bg-success {
+        background-color: #28a745 !important;
+        font-size: 0.85rem;
+    }
+
+    h6 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        color: #212529;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+        color: #fff;
+    }
+</style>

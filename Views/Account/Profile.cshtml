@@ -1,0 +1,234 @@
+@model WebsiteQLBanDongHo.Models.ViewModel.UserProfileViewModel
+
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .profile-page {
+        padding: 24px 0 48px;
+        background: #f5f7fb;
+    }
+
+    .profile-breadcrumb {
+        max-width: 960px;
+        margin: 0 auto 16px;
+    }
+
+    .profile-breadcrumb .breadcrumb {
+        background: #fff;
+        border-radius: 12px;
+        padding: 10px 14px;
+        margin: 0;
+        box-shadow: 0 6px 18px rgba(0,0,0,.06);
+    }
+
+    .profile-card {
+        max-width: 960px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        overflow: hidden;
+    }
+
+    .profile-card-header {
+        padding: 22px 26px;
+        border-bottom: 1px solid rgba(0,0,0,.06);
+        background: linear-gradient(180deg, rgba(205,164,52,.14), rgba(255,255,255,0));
+    }
+
+    .profile-card-header h2 {
+        margin: 0;
+        font-weight: 800;
+        letter-spacing: .2px;
+    }
+
+    .profile-card-header p {
+        margin: 6px 0 0;
+        color: #6b7280;
+    }
+
+    .profile-card-body {
+        padding: 22px 26px 26px;
+    }
+
+    .profile-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 20px;
+    }
+
+    .profile-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .profile-field--full {
+        grid-column: 1 / -1;
+    }
+
+    .profile-field label {
+        font-weight: 700;
+        color: #111827;
+        margin: 0;
+    }
+
+    .profile-field .form-control {
+        height: 44px;
+        border-radius: 12px;
+        border: 1px solid #d1d5db;
+        padding: 10px 12px;
+        box-shadow: none;
+    }
+
+    .profile-field textarea.form-control {
+        height: auto;
+        min-height: 90px;
+        resize: vertical;
+    }
+
+    .profile-field .form-control:focus {
+        border-color: rgba(14,165,233,.75);
+        box-shadow: 0 0 0 4px rgba(14,165,233,.12);
+        outline: none;
+    }
+
+    .profile-field .form-control[readonly] {
+        background: #f3f4f6;
+        color: #374151;
+        cursor: not-allowed;
+    }
+
+    .profile-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 18px;
+        align-items: center;
+    }
+
+    .profile-actions .btn {
+        border-radius: 12px;
+        padding: 10px 16px;
+        font-weight: 700;
+        border: 1px solid transparent;
+    }
+
+    .profile-actions .btn-primary {
+        background: #0ea5e9;
+        border-color: #0ea5e9;
+        color: #fff;
+    }
+
+    .profile-actions .btn-primary:hover {
+        background: #0284c7;
+        border-color: #0284c7;
+    }
+
+    .profile-actions .btn-secondary {
+        background: #111827;
+        border-color: #111827;
+        color: #fff;
+    }
+
+    .profile-actions .btn-secondary:hover {
+        background: #0b1220;
+        border-color: #0b1220;
+    }
+
+    .field-validation-error {
+        color: #dc2626;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .validation-summary-errors {
+        background: rgba(220,38,38,.08);
+        border: 1px solid rgba(220,38,38,.18);
+        color: #991b1b;
+        border-radius: 12px;
+        padding: 10px 12px;
+        margin-bottom: 14px;
+    }
+
+    @@media (max-width: 768px) {
+        .profile-page { padding: 16px 0 32px; }
+        .profile-card-header, .profile-card-body { padding: 16px; }
+        .profile-grid { grid-template-columns: 1fr; }
+        .profile-field--full { grid-column: 1; }
+    }
+</style>
+
+<div class="profile-page">
+    <div class="profile-breadcrumb">
+        <ol class="breadcrumb">
+            <li>@Html.ActionLink("Trang Chủ", "Index", "Home")</li>
+            <li class="active">Thông tin cá nhân</li>
+        </ol>
+    </div>
+
+    <div class="profile-card">
+        <div class="profile-card-header">
+            <h2>Thông tin cá nhân</h2>
+            <p>Cập nhật thông tin để việc đặt hàng và liên hệ được chính xác hơn.</p>
+        </div>
+
+        <div class="profile-card-body">
+            @using (Html.BeginForm("Profile", "Account", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.ReturnUrl)
+
+                @Html.ValidationSummary(true)
+
+                <div class="profile-grid">
+                    <div class="profile-field">
+                        @Html.LabelFor(m => m.UserName, "Tài khoản")
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+
+                    <div class="profile-field">
+                        @Html.LabelFor(m => m.TENKH, "Họ tên")
+                        @Html.TextBoxFor(m => m.TENKH, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.TENKH)
+                    </div>
+
+                    <div class="profile-field">
+                        @Html.LabelFor(m => m.EMAIL, "Email")
+                        @Html.TextBoxFor(m => m.EMAIL, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.EMAIL)
+                    </div>
+
+                    <div class="profile-field">
+                        @Html.LabelFor(m => m.SDT, "Số điện thoại")
+                        @Html.TextBoxFor(m => m.SDT, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.SDT)
+                    </div>
+
+                    <div class="profile-field">
+                        @Html.LabelFor(m => m.GIOITINH, "Giới tính")
+                        @Html.DropDownListFor(m => m.GIOITINH,
+                            new SelectList(new[] { "Nam", "Nữ" }, Model.GIOITINH),
+                            new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.GIOITINH)
+                    </div>
+
+                    <div class="profile-field profile-field--full">
+                        @Html.LabelFor(m => m.DIACHI, "Địa chỉ")
+                        @Html.TextAreaFor(m => m.DIACHI, new { @class = "form-control", rows = 3 })
+                        @Html.ValidationMessageFor(m => m.DIACHI)
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+                    @* Lịch sử đơn hàng nằm ở AccountController (action Orders). Dùng link này để tránh 404 *@
+                    <a class="btn btn-secondary" href="@Url.Action("Orders", "Account")">Xem lịch sử đơn hàng</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

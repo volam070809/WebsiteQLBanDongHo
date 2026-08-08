@@ -1,0 +1,125 @@
+﻿/* ==========================
+   Modern header + 2-level menu
+   Works with current theme (no Bootstrap required)
+   ========================== */
+
+.modern-nav { position: relative; }
+
+.nav-toggle{
+    display:none;
+    width:44px;height:44px;
+    border:1px solid rgba(255,255,255,.2);
+    background: rgba(0,0,0,.25);
+    color:#fff;
+    border-radius:12px;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.nav-toggle i{ font-size:18px; }
+
+.top-nav ul.nav-menu{
+    display:flex;
+    gap:28px;
+    align-items:center;
+    justify-content:center;
+}
+
+/* dropdown */
+.top-nav ul.nav-menu li{ position:relative; }
+.top-nav ul.nav-menu li a .caret{ margin-left:6px; font-size:12px; opacity:.85; }
+
+.top-nav ul.nav-menu li .submenu{
+    position:absolute;
+    top:100%;
+    left:0;
+    min-width:230px;
+    background: rgba(18,18,18,.96);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:14px;
+    padding:10px 0;
+    list-style:none;
+    opacity:0;
+    visibility:hidden;
+    transform: translateY(8px);
+    transition: all .2s ease;
+    z-index:9999;
+    box-shadow: 0 14px 40px rgba(0,0,0,.35);
+}
+
+.top-nav ul.nav-menu li:hover > .submenu{
+    opacity:1;
+    visibility:visible;
+    transform: translateY(0);
+}
+
+.top-nav ul.nav-menu li .submenu li a{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 14px;
+    color:#f3f3f3;
+    font-size:14px;
+    line-height:1.2;
+}
+
+.top-nav ul.nav-menu li .submenu li a:hover{
+    background: rgba(212,175,55,.12);
+    color:#d4af37;
+}
+
+.top-nav ul.nav-menu li .submenu li.has-sub{ position:relative; }
+
+/* level-2 submenu */
+.top-nav ul.nav-menu li .submenu li.has-sub > .submenu{
+    top:0;
+    left:100%;
+    margin-left:8px;
+}
+
+/* Mobile */
+@media (max-width: 992px){
+    .nav-toggle{ display:inline-flex; }
+
+    .top-nav ul.nav-menu{
+        display:none;
+        position:absolute;
+        top:56px;
+        left:0;
+        right:0;
+        background: rgba(10,10,10,.98);
+        border:1px solid rgba(255,255,255,.12);
+        border-radius:16px;
+        padding:10px;
+        flex-direction:column;
+        gap:6px;
+        align-items:stretch;
+        text-align:left;
+    }
+
+    .top-nav.open ul.nav-menu{ display:flex; }
+
+    .top-nav ul.nav-menu li a{
+        padding:12px 12px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+    }
+
+    .top-nav ul.nav-menu li .submenu{
+        position:static;
+        opacity:1;
+        visibility:visible;
+        transform:none;
+        border-radius:12px;
+        margin:6px 0 10px 0;
+        display:none;
+    }
+
+    .top-nav ul.nav-menu li.open > .submenu{ display:block; }
+
+    .top-nav ul.nav-menu li .submenu li.has-sub > .submenu{
+        margin-left:0;
+    }
+}

@@ -1,0 +1,461 @@
+﻿
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Bảng điều khiển - Admin";
+}
+
+<div id="page-wrapper" style="background-color:#f4f6f9; padding:30px;">
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <h1 class="page-header text-primary fw-bold">
+                <i class="fa fa-tachometer"></i> Bảng Điều Khiển
+            </h1>
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-card bg-gradient-primary">
+                <div class="card-icon">
+                    <i class="fa fa-user"></i>
+                </div>
+                <div class="card-info">
+                    <div class="card-value">@String.Format("{0:N0}", ViewBag.UserCount ?? 0)</div>
+                    <div class="card-label">Người dùng</div>
+                </div>
+	            <a href="@Url.Action("Index", "User", new { area = "Admin" })" class="card-footer">Xem Chi Tiết <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-card bg-gradient-success">
+                <div class="card-icon">
+                    <i class="fa fa-usd"></i>
+                </div>
+                <div class="card-info">
+                    <div class="card-value revenue-value">@String.Format("{0:N0}", ViewBag.TotalRevenue ?? 0)</div>
+                    <div class="card-label">Doanh thu tháng</div>
+                </div>
+                <a href="#revenueChartSection" class="card-footer">Xem Chi Tiết <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-card bg-gradient-warning">
+                <div class="card-icon">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+                <div class="card-info">
+                    <div class="card-value">@String.Format("{0:N0}", ViewBag.OrderCount ?? 0)</div>
+                    <div class="card-label">Đơn hàng</div>
+                </div>
+	            <a href="@Url.Action("Index", "Order", new { area = "Admin" })" class="card-footer">Xem Chi Tiết <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-card bg-gradient-danger">
+                <div class="card-icon">
+                    <i class="fa fa-gift"></i>
+                </div>
+                <div class="card-info">
+                    <div class="card-value">@String.Format("{0:N0}", ViewBag.ProductCount ?? 0)</div>
+                    <div class="card-label">Sản Phẩm Mới</div>
+                </div>
+                <a href="@Url.Action("Index", "Product", new { area = "Admin" })" class="card-footer">Xem Chi Tiết <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-card bg-gradient-info">
+                <div class="card-icon">
+                    <i class="fa fa-users"></i>
+                </div>
+                <div class="card-info">
+                    <div class="card-value">@String.Format("{0:N0}", ViewBag.CustomerCount ?? 0)</div>
+                    <div class="card-label">Tổng khách hàng</div>
+                </div>
+	            <a href="@Url.Action("Index", "Customer", new { area = "Admin" })" class="card-footer">Xem Chi Tiết <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-card bg-gradient-dark">
+                <div class="card-icon">
+                    <i class="fa fa-cubes"></i>
+                </div>
+                <div class="card-info">
+                    <div class="card-value">@String.Format("{0:N0}", ViewBag.SoldProductCount ?? 0)</div>
+                    <div class="card-label">Đã bán ra</div>
+                </div>
+                <a href="@Url.Action("SoldReport", "Report", new { area = "Admin" })" class="card-footer">Xem chi tiết <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-card bg-gradient-secondary">
+                <div class="card-icon">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="card-info">
+                    <div class="card-value">@String.Format("{0:N0}", ViewBag.CommentCount ?? 0)</div>
+                    <div class="card-label">Phản hồi</div>
+                </div>
+	            <a href="@Url.Action("Index", "Comment", new { area = "Admin" })" class="card-footer">Xem Chi Tiết <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-card bg-gradient-teal">
+                <div class="card-icon">
+                    <i class="fa fa-percent"></i>
+                </div>
+                <div class="card-info">
+                    <div class="card-value">@String.Format("{0:N0}", ViewBag.ActivePromotionCount ?? 0)</div>
+                    <div class="card-label">Đang khuyến mãi</div>
+                </div>
+	            <a href="@Url.Action("Index", "Promotion", new { area = "Admin" })" class="card-footer">Xem Chi Tiết <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-lg-8 col-md-12 mb-4" id="revenueChartSection">
+            <div class="chart-card">
+                <h4 class="chart-title"><i class="fa fa-line-chart"></i> Doanh Thu 12 Tháng Gần Đây</h4>
+                <div class="chart-loading" id="revenueLoading">Đang tải dữ liệu...</div>
+                <canvas id="revenueChart" style="display:none; width:100%; height:100%;"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12 mb-4" id="orderStatusChartSection">
+            <div class="chart-card">
+                <h4 class="chart-title"><i class="fa fa-pie-chart"></i> Trạng Thái Đơn Hàng</h4>
+                <div class="chart-loading" id="orderStatusLoading">Đang tải dữ liệu...</div>
+                <canvas id="orderStatusChart" style="display:none; width:100%; height:100%;"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-lg-6 col-md-12 mb-4">
+            <div class="chart-card">
+                <h4 class="chart-title"><i class="fa fa-bar-chart"></i> Top 5 Sản Phẩm Bán Chạy</h4>
+                <div class="chart-loading" id="topProductLoading">Đang tải dữ liệu...</div>
+                <canvas id="topProductChart" style="display:none; width:100%; height:100%;"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12 mb-4">
+            <div class="chart-card">
+                <h4 class="chart-title"><i class="fa fa-line-chart"></i> Người Dùng Mới Trong Năm</h4>
+                <div class="chart-loading" id="newUserLoading">Đang tải dữ liệu...</div>
+                <canvas id="newUserChart" style="display:none; width:100%; height:100%;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard-card {
+        border-radius: 16px;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 25px;
+        min-height: 180px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-icon {
+        font-size: 52px;
+        opacity: 0.3;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+    }
+
+    .card-info {
+        z-index: 1;
+    }
+
+    .card-value {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .revenue-value {
+        font-size: 25px;
+    }
+
+    .card-label {
+        font-size: 15px;
+        font-weight: 500;
+        opacity: 0.9;
+    }
+
+    .card-footer {
+        background-color: rgba(255,255,255,0.15);
+        color: #fff;
+        text-align: center;
+        padding: 10px 0;
+        font-weight: 500;
+        border-radius: 0 0 16px 16px;
+        text-decoration: none;
+        transition: background 0.3s ease;
+    }
+
+    .card-footer:hover {
+        background-color: rgba(255,255,255,0.3);
+        color: #fff;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(135deg, #1cc88a 0%, #13855c 100%);
+    }
+
+    .bg-gradient-warning {
+        background: linear-gradient(135deg, #f6c23e 0%, #dda20a 100%);
+    }
+
+    .bg-gradient-danger {
+        background: linear-gradient(135deg, #e74a3b 0%, #be2617 100%);
+    }
+
+    .bg-gradient-info {
+        background: linear-gradient(135deg, #36b9cc 0%, #258391 100%);
+    }
+
+    .bg-gradient-dark {
+        background: linear-gradient(135deg, #5a5c69 0%, #2c2e35 100%);
+    }
+
+    .bg-gradient-secondary {
+        background: linear-gradient(135deg, #858796 0%, #4e5058 100%);
+    }
+
+    .bg-gradient-teal {
+        background: linear-gradient(135deg, #20c997 0%, #138f6e 100%);
+    }
+
+    .page-header {
+        font-size: 32px;
+        margin-bottom: 30px;
+    }
+
+    .mb-4 {
+        margin-bottom: 1.5rem;
+    }
+
+    .fw-bold {
+        font-weight: 700;
+    }
+
+    .text-primary {
+        color: #4e73df !important;
+    }
+
+    .chart-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 25px 30px;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        overflow: hidden;
+        border-top: 4px solid #4e73df;
+    }
+
+    .chart-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+    }
+
+    .chart-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2f2f2f;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        letter-spacing: 0.3px;
+    }
+
+    .chart-title i {
+        color: #4e73df;
+        font-size: 18px;
+    }
+
+    .chart-loading {
+        text-align: center;
+        color: #888;
+        font-style: italic;
+        margin-top: auto;
+    }
+
+    .chart-card canvas {
+        aspect-ratio: 16 / 9;
+    }
+
+    .row.mt-5 {
+        display: flex;
+        align-items: stretch;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Biểu đồ doanh thu
+        fetch('@Url.Action("GetRevenueData", "Home", new { area = "Admin" })')
+            .then(response => response.json())
+            .then(data => {
+                const labels = data.map(x => 'T' + x.Month);
+                const values = data.map(x => x.Total);
+                const ctx = document.getElementById('revenueChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Doanh thu (VNĐ)',
+                            data: values,
+                            fill: true,
+                            backgroundColor: 'rgba(78, 115, 223, 0.1)',
+                            borderColor: '#4e73df',
+                            tension: 0.3,
+                            pointBackgroundColor: '#4e73df'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: true },
+                            tooltip: { mode: 'index', intersect: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: v => v.toLocaleString('vi-VN') + ' ₫'
+                                }
+                            }
+                        }
+                    }
+                });
+                document.getElementById('revenueLoading').style.display = 'none';
+                document.getElementById('revenueChart').style.display = 'block';
+            });
+
+        // Biểu đồ trạng thái đơn hàng
+        fetch('@Url.Action("GetOrderStatusData", "Home", new { area = "Admin" })')
+            .then(response => response.json())
+            .then(data => {
+                const labels = data.map(x => x.Status);
+                const values = data.map(x => x.Count);
+                const ctx = document.getElementById('orderStatusChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: values,
+                            backgroundColor: ['#f6c23e', '#1cc88a', '#e74a3b']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { position: 'bottom' },
+                            tooltip: {
+                                callbacks: {
+                                    label: context => `${context.label}: ${context.parsed} đơn`
+                                }
+                            }
+                        }
+                    }
+                });
+                document.getElementById('orderStatusLoading').style.display = 'none';
+                document.getElementById('orderStatusChart').style.display = 'block';
+            });
+
+        // Biểu đồ Top 5 sản phẩm bán chạy
+        fetch('@Url.Action("GetTopSellingProducts", "Home", new { area = "Admin" })')
+            .then(response => response.json())
+            .then(data => {
+                const labels = data.map(x => x.ProductName);
+                const values = data.map(x => x.TotalSold);
+                const ctx = document.getElementById('topProductChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Số lượng đã bán',
+                            data: values,
+                            backgroundColor: 'rgba(28, 200, 138, 0.7)',
+                            borderColor: '#1cc88a',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: { precision: 0 }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+                document.getElementById('topProductLoading').style.display = 'none';
+                document.getElementById('topProductChart').style.display = 'block';
+            });
+
+        // Biểu đồ người dùng mới theo tháng
+        fetch('@Url.Action("GetNewUsersPerMonth", "Home", new { area = "Admin" })')
+            .then(response => response.json())
+            .then(data => {
+                const labels = data.map(x => 'T' + x.Month);
+                const values = data.map(x => x.Count);
+                const ctx = document.getElementById('newUserChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Người dùng mới',
+                            data: values,
+                            borderColor: '#36b9cc',
+                            backgroundColor: 'rgba(54, 185, 204, 0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            pointBackgroundColor: '#36b9cc'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: true },
+                            tooltip: { mode: 'index', intersect: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+                document.getElementById('newUserLoading').style.display = 'none';
+                document.getElementById('newUserChart').style.display = 'block';
+            });
+    });
+</script>

@@ -1,0 +1,44 @@
+@model IEnumerable<WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.KHACHHANG>
+@using System.Linq
+
+@{
+    ViewBag.Title = "Danh sách khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-4">Danh sách khách hàng</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">Chưa có khách hàng nào trong hệ thống.</div>
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Mã KH</th>
+                <th>Tài khoản</th>
+                <th>Họ tên</th>
+                <th>Email</th>
+                <th>SĐT</th>
+                <th>Giới tính</th>
+                <th>Địa chỉ</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var c in Model ?? Enumerable.Empty<WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.KHACHHANG>())
+        {
+            <tr>
+                <td>@c.MAKH</td>
+                <td>@(c.TAIKHOAN != null ? c.TAIKHOAN.TENDN : "")</td>
+                <td>@c.TENKH</td>
+                <td>@c.EMAIL</td>
+                <td>@c.SDT</td>
+                <td>@c.GIOITINH</td>
+                <td>@c.DIACHI</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

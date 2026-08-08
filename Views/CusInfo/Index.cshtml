@@ -1,0 +1,106 @@
+﻿@model WebsiteQLBanDongHo.Models.ViewModel.CusInfoViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/css/cusinfo.css" rel="stylesheet" />
+}
+
+<div class="cus-title">
+    <h1>Thông Tin Khách Hàng</h1>
+</div>
+<div class="cus-body">
+    @Html.ValidationSummary(true, "", new { @class = "validation" })
+    <form method="post">
+        @Html.AntiForgeryToken()
+        @Html.TextBoxFor(m => m.DiaChiGiao, new { placeholder = "Địa chỉ giao hàng", @class = "text-box", required = "" })
+        <br />
+        @Html.TextBoxFor(m => m.Sdt, new { placeholder = "Số điện thoại", @class = "text-box", required = "" })
+        <br />
+        @Html.TextAreaFor(m => m.MoTa, new { rows = "5", placeholder = "Mô tả", @class = "text-box" })
+
+        <div class="sub-title">Phương Thức Thanh Toán</div>
+        <div class="pay-methods">
+            <label class="pay-item">
+                @Html.RadioButtonFor(m => m.PaymentMethod, "COD", new { id = "pmCOD" })
+                <span>COD (Thanh toán khi nhận hàng)</span>
+            </label>
+
+            <label class="pay-item">
+                @Html.RadioButtonFor(m => m.PaymentMethod, "BANK_QR", new { id = "pmBANK" })
+                <span>Chuyển khoản / QR</span>
+            </label>
+
+            <label class="pay-item">
+                @Html.RadioButtonFor(m => m.PaymentMethod, "MOMO", new { id = "pmMOMO" })
+                <span>MoMo</span>
+            </label>
+
+            <label class="pay-item">
+                @Html.RadioButtonFor(m => m.PaymentMethod, "ZALOPAY", new { id = "pmZALO" })
+                <span>ZaloPay</span>
+            </label>
+
+            @Html.ValidationMessageFor(m => m.PaymentMethod, "", new { @class = "validation" })
+        </div>
+
+        <div id="qrPanel" class="qr-panel">
+            <div class="qr-left">
+                <img src="~/images/qr-payment.png" alt="QR thanh toán" />
+            </div>
+            <div class="qr-right">
+                <div class="qr-title">Quét QR để chuyển khoản</div>
+                <div class="qr-line"><b>Ngân hàng:</b> Vietcombank</div>
+                <div class="qr-line"><b>Số tài khoản:</b> 0123 456 789</div>
+                <div class="qr-line"><b>Chủ tài khoản:</b> WATCH LUXURY</div>
+                <div class="qr-line"><b>Số tiền:</b> @Model.cart.TotalMoney().ToString("0,0") VNĐ</div>
+                <div class="qr-hint">Nội dung: <b>WL @DateTime.Now.ToString("ddMMyyyy")</b></div>
+            </div>
+        </div>
+
+        <div class="sub-title">Chi Tiết Hoá Đơn</div>
+        <table>
+            <tr class="head-table">
+                <td>STT</td>
+                <td>Tên Sản Phẩm</td>
+                <td>Đơn giá</td>
+                <td>Số lượng</td>
+            </tr>
+            @for (int i = 0; i < Model.cart.GetList().Count; i++)
+            {
+                <tr>
+                    <td>@(i+1)</td>
+                    <td>@Model.cart.GetList()[i].Product.TENSP</td>
+                    <td>@((Model.cart.GetList()[i].Product.DONGIA.Value*(1-((float)Model.cart.GetList()[i].Promotion/100))).ToString("0,0")) VNĐ</td>
+                    <td>@Model.cart.GetList()[i].Quantity</td>
+                </tr>
+            }
+            <tr class="foot-table">
+                <td colspan="4" style="text-align:left;padding-left:10px;">Tổng tiền: @Model.cart.TotalMoney().ToString("0,0") VNĐ</td>
+            </tr>
+        </table>
+        <input type="submit" value="ĐẶT MUA" class="button" />
+    </form>
+</div>
+
+@section scripts{
+    <script>
+        (function () {
+            function toggleQr() {
+                var bank = document.getElementById('pmBANK');
+                var panel = document.getElementById('qrPanel');
+                if (!bank || !panel) return;
+                panel.style.display = bank.checked ? 'flex' : 'none';
+            }
+
+            document.addEventListener('change', function (e) {
+                if (e.target && e.target.name && e.target.name.indexOf('PaymentMethod') !== -1) {
+                    toggleQr();
+                }
+            });
+
+            // init
+            toggleQr();
+        })();
+    </script>
+}

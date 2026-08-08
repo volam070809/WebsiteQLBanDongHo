@@ -1,0 +1,104 @@
+﻿@model WebsiteQLBanDongHo.Models.ViewModel.HomePageViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="bnr" id="home">
+    <div id="top" class="callbacks_container">
+        <ul class="rslides" id="slider4">
+            <li>
+                <img src="~/images/bnr-1.jpg" alt="" />
+            </li>
+            <li>
+                <img src="~/images/bnr-2.jpg" alt="" />
+            </li>
+            <li>
+                <img src="~/images/bnr-3.jpg" alt="" />
+            </li>
+        </ul>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<div class="about">
+    <div class="container">
+        <div class="section-title text-center">
+            <h2>Sản Phẩm Bán Chạy</h2>
+            <span class="section-line"></span>
+            <p>Những mẫu đồng hồ được yêu thích nhất</p>
+        </div>
+        <div class="about-top grid-1 row">
+            @foreach (var item in Model.ProductsSelling)
+            {
+                string source = "~/images/HINHLON/" + item.HINHLON;
+                <div class="col-md-4 about-left">
+                    <a href="@Url.Content("~/Home/Detail/" + item.MASP)">
+                        <figure class="effect-bubba">
+                            <img class="img-responsive" src="@Url.Content(source)" alt="" />
+                            <figcaption>
+                                <h2>@item.TENSP</h2>
+                                <p>@item.MOTA</p>
+                            </figcaption>
+                        </figure>
+                    </a>
+                </div>
+            }
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<div class="product">
+    <div class="container">
+        <div class="section-title text-center">
+            <h2><span class="highlight">Sản Phẩm Mới</span></h2>
+            <p>Khám phá những mẫu đồng hồ mới nhất</p>
+        </div>
+        <div class="product-top">
+            <div class="product-one row">
+                @foreach (var item in Model.NewProducts.Skip(0).Take(4))
+                {
+                    string source = "~/images/HINHLON/" + item.Product.HINHLON;
+                    string url = "~/Home/Detail/" + item.Product.MASP;
+                    <div class="col-md-3 product-left">
+                        <div class="product-main simpleCart_shelfItem">
+                            <a href="@Url.Content(url)" class="mask"><img class="img-responsive zoom-img" src="@Url.Content(source)" alt="" /></a>
+                            <a href="@Url.Content(url)" class="product-bottom">
+                                <h3>@item.Product.TENSP</h3>
+                                <p>Khám Phá Ngay</p>
+                                <h4><span class="item_price">@String.Format("{0:0,0}", (item.Product.DONGIA * (100 - item.Promotion) / 100)) VNĐ</span></h4>
+                            </a>
+                            <div class="srch">
+                                <span>-@item.Promotion %</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="clearfix"></div>
+            </div>
+            <div class="product-one row">
+                @foreach (var item in Model.NewProducts.Skip(4).Take(4))
+                {
+                    string source = "~/images/HINHLON/" + item.Product.HINHLON;
+                    string url = "~/Home/Detail/" + item.Product.MASP;
+                    <div class="col-md-3 product-left">
+                        <div class="product-main simpleCart_shelfItem">
+                            <a href="@Url.Content(url)" class="mask"><img class="img-responsive zoom-img" src="@Url.Content(source)" alt="" /></a>
+                            <a href="@Url.Content(url)" class="product-bottom">
+                                <h3>@item.Product.TENSP</h3>
+                                <p>Khám Phá Ngay</p>
+                                <h4><span class="item_price">@String.Format("{0:0,0}", (item.Product.DONGIA * (100 - item.Promotion) / 100)) VNĐ</span></h4>
+                            </a>
+                            <div class="srch">
+                                <span>-@item.Promotion %</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

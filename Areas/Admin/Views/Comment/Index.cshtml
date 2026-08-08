@@ -1,0 +1,40 @@
+@model IEnumerable<WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.BINHLUAN>
+@using System.Linq
+
+@{
+    ViewBag.Title = "Phản hồi / Bình luận";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-4">Phản hồi / Bình luận</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">Chưa có phản hồi/bình luận nào.</div>
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Mã</th>
+                <th>Tài khoản</th>
+                <th>Sản phẩm</th>
+                <th>Nội dung</th>
+                <th>Ngày</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var bl in Model ?? Enumerable.Empty<WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.BINHLUAN>())
+        {
+            <tr>
+                <td>@bl.MABL</td>
+                <td>@(bl.TAIKHOAN != null ? bl.TAIKHOAN.TENDN : ("#" + bl.MATK))</td>
+                <td>@(bl.SANPHAM != null ? bl.SANPHAM.TENSP : ("#" + bl.MASP))</td>
+                <td style="max-width: 520px; white-space: normal;">@bl.NOIDUNG</td>
+                <td>@(bl.NGAYBINHLUAN.HasValue ? bl.NGAYBINHLUAN.Value.ToString("dd/MM/yyyy HH:mm") : "")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

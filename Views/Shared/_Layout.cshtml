@@ -1,0 +1,270 @@
+﻿﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Đồng hồ đeo tay giảm tới 82% | Chính hãng, Cao cấp, Mẫu Đẹp, Giá Tốt, Góp 0%</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Luxury Watches Responsive web" />
+    <link rel="icon" href="~/images/logo_WL.png" type="image/x-icon" />
+
+    <link href="~/Content/css/CustomModern.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/css/ModernHeader.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/css/BannerSlider.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/css/HomePage.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/css/detail.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/css/ModernUI_v2.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
+
+    <script type="application/x-javascript">
+        addEventListener("load", function () { setTimeout(hideURLbar, 0); }, false);
+        function hideURLbar() { window.scrollTo(0, 1); }
+    </script>
+</head>
+<body>
+    <div class="top-header">
+        <div class="container">
+            <div class="top-header-main">
+                <div class="col-md-6 top-header-left">
+                    <div class="drop">
+                        <div class="box">
+                            <select tabindex="4" class="dropdown drop">
+                                <option value="" class="label">VND</option>
+                                <option value="1">USD</option>
+                            </select>
+                        </div>
+                        <div class="box1">
+                            <select tabindex="4" class="dropdown">
+                                <option value="" class="label">TIẾNG VIỆT</option>
+                                <option value="1">ENGLISH</option>
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="top-header-right">
+                    <div class="col-md-4 userMenu">
+                        @{ Html.RenderAction("UserMenu", "Account"); }
+                    </div>
+                    <div class="col-md-2 top-header-left cart-menu">
+                        @{ Html.RenderAction("CartMenu", "Cart"); }
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="logo">
+        <a href="~/Home/index">
+            <img src="~/images/logo_WL.png" alt="Watch Luxury Logo" />
+            <h1>WATCH LUXURY</h1>
+        </a>
+    </div>
+
+    <div class="header-bottom">
+        <div class="container">
+            <div class="header">
+                <div class="col-md-9 header-left">
+                    <div class="top-nav modern-nav">
+    <button class="nav-toggle" type="button" aria-label="Mở menu" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <ul class="memenu skyblue nav-menu">
+        <li class="grid active"><a href="~/Home/Index">Trang chủ</a></li>
+
+        <li class="grid has-sub">
+            <a href="~/san-pham/tat-ca">Sản phẩm <i class="fa-solid fa-angle-down caret"></i></a>
+            <ul class="submenu">
+                <li><a href="~/san-pham/tat-ca">Tất cả sản phẩm</a></li>
+                <li><a href="~/san-pham/dong-ho-nam">Đồng hồ nam</a></li>
+                <li><a href="~/san-pham/dong-ho-nu">Đồng hồ nữ</a></li>
+            </ul>
+        </li>
+
+        <li class="grid"><a href="~/Home/Contact">Liên hệ</a></li>
+    </ul>
+</div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-3 header-right">
+                    <div class="search-bar">
+                        <form action="/tim-kiem" method="get">
+                            <input type="text" value="Tìm Kiếm" name="keyword" id="txtkeyword" onfocus="this.value = ''" onblur="if (this.value == '') {this.value = 'Tìm Kiếm';}">
+                            <input type="submit" value="" class="glyphicon-search">
+                        </form>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 20px;">
+                <strong>Thành công!</strong> @TempData["Success"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 20px;">
+                <strong>Lỗi!</strong> @TempData["Error"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    </div>
+
+    @RenderBody()
+
+    <div class="information">
+        <div class="container">
+            <div class="infor-top">
+                <div class="col-md-3 infor-left">
+                    <h3>Theo Dõi Chúng Tôi</h3>
+                    <ul>
+                        <li><a href="https://www.facebook.com/marktitan2003"><span class="fb"><i class="fa-brands fa-facebook-f"></i></span><h6>Facebook</h6></a></li>
+                        <li><a href="https://x.com/Titan89056"><span class="twit"><i class="fa-brands fa-x-twitter"></i></span><h6>Twitter</h6></a></li>
+                        <li><a href="https://sites.google.com/view/marktitans"><span class="google"><i class="fa-brands fa-google-plus-g"></i></span><h6>Google+</h6></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 infor-left">
+                    <h3>Thông Tin</h3>
+                    <ul>
+                        <li><a href="#"><p>Khuyến Mãi</p></a></li>
+                        <li><a href="~/san-pham/tat-ca"><p>Sản Phẩm Mới</p></a></li>
+                        <li><a href="#"><p>Cửa Hàng Của Chúng Tôi</p></a></li>
+                        <li><a href="~/Home/Contact"><p>Liên Hệ Chúng Tôi</p></a></li>
+                        <li><a href="#"><p>Bán Chạy Nhất</p></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 infor-left">
+                    <h3>Tài Khoản</h3>
+                    <ul>
+                        <li><a href="@Url.Action("Profile","Account")"><p>Tài Khoản</p></a></li>
+                        <li><a href="#"><p>Tín Dụng</p></a></li>
+                        <li><a href="#"><p>Hàng Lưu Niệm</p></a></li>
+                        <li><a href="@Url.Action("Profile","Account")"><p>Thông Tin Cá Nhân</p></a></li>
+                        <li><a href="#"><p>Địa Chỉ</p></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 infor-left">
+                    <h3>Thông Tin Liên Hệ</h3>
+                    <ul class="contact-info-list">
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div class="info-content">
+                                <h6>Trụ Sở Chính</h6>
+                                <p>Mark Nova - Hẻm 21 Đặng Tất, Đường Thủ Khoa Huân, Phường Phú thủy, Thành Phố Phan Thiết.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-phone"></i>
+                            <div class="info-content">
+                                <h6>Hỗ Trợ Kỹ Thuật</h6>
+                                <div class="phone-numbers">
+                                    <p>+84 942 435 700</p>
+                                    <p>+84 835 737 366</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-envelope"></i>
+                            <div class="info-content">
+                                <h6>Email Hỗ Trợ</h6>
+                                <a href="mailto:nguyenhaithanhptbt@gmail.com">nguyenhaithanhptbt@gmail.com</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="col-md-6 footer-left">
+                    <form>
+                        <input type="text" value="Nhập Email Của Bạn" onfocus="this.value = ''" onblur="if (this.value == '') {this.value = 'Nhập Email Của Bạn';}">
+                        <input type="submit" value="Đăng Ký">
+                    </form>
+                </div>
+                <div class="col-md-6 footer-right">
+                    <p>© 2025 Watch Luxury. Đã Đăng Ký Bản Quyền | Thiết Kế Bởi <a href="http://MarkNova-LTWNC.com/" target="_blank">Mark Nova - LTWNC</a> </p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-contact-bar">
+        <a href="tel:+84942435700" class="contact-icon call-btn"><i class="fa-solid fa-phone"></i></a>
+        <a href="https://zalo.me/84942435700" target="_blank" class="contact-icon zalo-btn"><i class="fa-brands fa-zalo"></i>Zalo</a>
+        <a href="https://m.me/marktitan2003" target="_blank" class="contact-icon messenger-btn"><i class="fa-brands fa-facebook-messenger"></i></a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="~/Scripts/js/responsiveslides.min.js"></script>
+    <script src="~/Scripts/js/search.js"></script>
+    <script src="~/Scripts/js/modern-menu.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.memenu li').removeClass('active');
+            var currentPath = window.location.pathname.toLowerCase();
+            $('.memenu a').each(function () {
+                var menuPath = $(this).attr('href').toLowerCase().replace('~', '');
+                if (currentPath === '/' || currentPath === '/home/index') {
+                    if (menuPath === '/home/index') {
+                        $(this).closest('li').addClass('active');
+                        return false;
+                    }
+                }
+                else if (menuPath.length > 1 && currentPath.includes(menuPath)) {
+                    $(this).closest('li').addClass('active');
+                    return false;
+                }
+            });
+
+            $('.memenu li.grid').click(function (e) {
+                $('.memenu li').removeClass('active');
+                $(this).addClass('active');
+            });
+        });
+
+        $(function () {
+            $("#slider4").responsiveSlides({
+                auto: true,
+                pager: true,
+                nav: true,
+                speed: 500,
+                namespace: "callbacks",
+                before: function () {
+                    $('.events').append("<li>before event fired.</li>");
+                },
+                after: function () {
+                    $('.events').append("<li>after event fired.</li>");
+                }
+            });
+        });
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,380 @@
+﻿@model WebsiteQLBanDongHo.Areas.Admin.Models.ProductPagerViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    :root {
+        --primary-color: #0d6efd;
+        --success-color: #198754;
+    }
+
+    .page-wrapper {
+        padding: 30px;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .page-header {
+        border-bottom: 3px solid var(--primary-color);
+        padding-bottom: 10px;
+        margin-bottom: 25px;
+        color: #343a40;
+        font-weight: 700;
+    }
+
+    .table-product {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .table-product thead th {
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: 600;
+        vertical-align: middle;
+        padding: 12px 15px;
+        border-color: var(--primary-color);
+    }
+
+    .table-product tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+    .action-btns .btn {
+        padding: 6px 10px;
+        margin-right: 5px;
+        border-radius: 5px;
+    }
+
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination .page-link {
+        color: var(--primary-color);
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        color: white;
+    }
+
+    .modal-header {
+        background-color: var(--primary-color);
+        color: white;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+</style>
+
+<div class="container-fluid py-4">
+    <div class="page-wrapper">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="page-header"><i class="fas fa-box-open me-2"></i> Danh Sách Sản Phẩm</h1>
+            </div>
+        </div>
+        <div class="row mb-4 align-items-center">
+            <div class="col-md-4 mb-2">
+                <a class="btn btn-success" title="Thêm sản phẩm" href="~/Admin/Product/Create">
+                    <i class="fas fa-plus me-2"></i> Thêm Sản Phẩm
+                </a>
+            </div>
+            <div class="col-md-8">
+                <div class="row g-2">
+                    <div class="col-sm-5 col-lg-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="txtSearch" placeholder="Nhập tên hoặc mã SP..." aria-label="Tìm kiếm" onkeyup="instantSearch()">
+                            <button class="btn btn-primary" type="button" onclick="searchProducts()"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-lg-3">
+                        <select class="form-select" id="ddlBrandFilter" onchange="filterProducts()">
+                            <option value="">-- Lọc Thương Hiệu --</option>
+                            @if (ViewBag.BrandList != null)
+                            {
+                                foreach (var brand in ViewBag.BrandList)
+                                {
+                                    <option value="@brand.MATH">@brand.TENTH</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-3 col-lg-3">
+                        <button class="btn btn-secondary w-100" type="button" onclick="resetFilters()">
+                            <i class="fas fa-undo-alt me-1"></i> Đặt Lại
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12" id="product-list">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped table-product" id="table-list">
+                        <thead>
+                            <tr>
+                                <th>Mã SP</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Thương hiệu</th>
+                                <th>Loại sản phẩm</th>
+                                <th>Đơn giá (VNĐ)</th>
+                                <th style="width: 150px; text-align: center;"><i class="fas fa-cogs"></i> Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Products != null)
+                            {
+                                foreach (var item in Model.Products)
+                                {
+                                    <tr>
+                                        <td>@item.MASP</td>
+                                        <td>@item.TENSP</td>
+                                        <td>@item.SOLUONG</td>
+                                        <td>@item.THUONGHIEU.TENTH</td>
+                                        <td>@item.LOAISANPHAM.TENLOAISP</td>
+                                        <td>@String.Format("{0:0,0}", item.DONGIA)</td>
+                                        <td class="action-btns text-center">
+                                            <button class="btn btn-info btn-sm" onclick="DetailPopup('Chi tiết sản phẩm', @item.MASP)" title="Chi tiết" data-bs-toggle="modal" data-bs-target="#myDetailPopup">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-warning btn-sm"
+                                                    title="Chỉnh sửa"
+                                                    onclick="window.location.href='@Url.Action("Update", "Product", new { area = "Admin", masp = item.MASP })'">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" onclick="DeletePopup('Xóa sản phẩm',@item.MASP)" title="Xóa" data-bs-toggle="modal" data-bs-target="#myDeletePopup">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted p-4">
+                                        <i class="fas fa-info-circle me-2"></i> Không có dữ liệu sản phẩm.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <nav aria-label="Page navigation example" class="pagination-container">
+                    @if (Model.Pager.EndPage > 1)
+                    {
+                        <ul class="pagination shadow-sm">
+                            @if (Model.Pager.CurrentPage > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="#" onclick="getListProduct(@(Model.Pager.StartPage)); return false;" title="Trang đầu">
+                                        <i class="fas fa-angle-double-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" onclick="getListProduct(@(Model.Pager.CurrentPage - 1)); return false;" title="Trang trước">
+                                        <i class="fas fa-angle-left"></i>
+                                    </a>
+                                </li>
+                            }
+                            @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                            {
+                                <li class="page-item @(page == Model.Pager.CurrentPage ? "active" : "")">
+                                    <a class="page-link" href="#" onclick="getListProduct(@page); return false;">@page</a>
+                                </li>
+                            }
+                            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="#" onclick="getListProduct(@(Model.Pager.CurrentPage + 1)); return false;" title="Trang sau">
+                                        <i class="fas fa-angle-right"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" onclick="getListProduct(@(Model.Pager.TotalPages)); return false;" title="Trang cuối">
+                                        <i class="fas fa-angle-double-right"></i>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myDeletePopup" tabindex="-1" aria-labelledby="hd-popup-content-delete" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="hd-popup-content-delete"><i class="fas fa-exclamation-circle me-2"></i> Xác nhận Xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="fas fa-question-circle text-warning mb-3" style="font-size: 2.5rem;"></i>
+                <p id="bd-popup-content-delete">Bạn có chắc chắn muốn xóa sản phẩm này?</p>
+            </div>
+            <div class="modal-footer popup-footer">
+                <button type="button" class="btn btn-success" id="btn-ok-delete">
+                    <i class="fas fa-check-circle me-1"></i> Đồng Ý
+                </button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="btn-cancel-delete">
+                    <i class="fas fa-times-circle me-1"></i> Bỏ Qua
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myDetailPopup" tabindex="-1" aria-labelledby="hd-popup-content-detail" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="hd-popup-content-detail"><i class="fas fa-info-circle me-2"></i> Chi Tiết Sản Phẩm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="DetailPopup">
+                <p class="text-center text-muted">Vui lòng chọn sản phẩm để xem chi tiết.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var deleteId = null;
+    let searchTimer;
+
+    function getListProduct(pageNumber) {
+        const keyword = document.getElementById('txtSearch').value.trim();
+        const brandId = document.getElementById('ddlBrandFilter').value;
+        console.log(`Đang tải trang ${pageNumber}: Keyword='${keyword}', BrandId='${brandId}'`);
+        const productListContainer = document.getElementById('product-list');
+        productListContainer.innerHTML = `
+            <div class="text-center p-5">
+                <i class="fas fa-spinner fa-spin me-2" style="font-size: 2rem; color: var(--primary-color);"></i>
+                <p class="mt-2 text-muted">Đang tải danh sách sản phẩm (Trang ${pageNumber})...</p>
+            </div>`;
+        if (typeof jQuery !== 'undefined') {
+            $.ajax({
+                url: '@Url.Action("Product", "Product")',
+                type: 'GET',
+                data: {
+                    page: pageNumber,
+                    keyword: keyword,
+                    brandId: brandId
+                },
+                success: function (html) {
+                    productListContainer.innerHTML = html;
+                    document.getElementById('txtSearch').value = keyword;
+                    document.getElementById('ddlBrandFilter').value = brandId;
+                },
+                error: function (xhr, status, error) {
+                    productListContainer.innerHTML = `
+                        <div class="text-danger text-center p-5 border border-danger rounded">
+                            <i class="fas fa-exclamation-triangle me-2" style="font-size: 2rem;"></i> Lỗi tải dữ liệu.
+                            <br/>Lỗi Server: ${xhr.status}
+                        </div>`;
+                }
+            });
+        } else {
+            console.error("jQuery is not defined. Cannot make AJAX call.");
+        }
+    }
+
+    function instantSearch() {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => {
+            getListProduct(1);
+        }, 300);
+    }
+
+    function searchProducts() {
+        getListProduct(1);
+    }
+
+    function filterProducts() {
+        getListProduct(1);
+    }
+
+    function resetFilters() {
+        document.getElementById('txtSearch').value = '';
+        document.getElementById('ddlBrandFilter').value = '';
+        getListProduct(1);
+    }
+
+    function DetailPopup(title, masp) {
+        document.getElementById('hd-popup-content-detail').innerText = title;
+        document.getElementById('DetailPopup').innerHTML = `<div class="text-center p-4"><i class="fas fa-spinner fa-spin me-2"></i> Đang tải chi tiết cho Mã SP: <strong>${masp}</strong>...</div>`;
+        if (typeof jQuery !== 'undefined') {
+            $.ajax({
+                url: '@Url.Action("Detail", "Product")',
+                type: 'GET',
+                data: { masp: masp },
+                success: function (html) {
+                    document.getElementById('DetailPopup').innerHTML = html;
+                },
+                error: function (xhr, status, error) {
+                    document.getElementById('DetailPopup').innerHTML = `<div class="text-danger text-center p-4"><i class="fas fa-times-circle me-2"></i> Lỗi: Không tải được chi tiết SP ${masp}.<br/>Lỗi Server: ${xhr.status}</div>`;
+                }
+            });
+        }
+    }
+
+    function DeletePopup(title, masp) {
+        deleteId = masp;
+        document.getElementById('hd-popup-content-delete').innerText = title;
+        document.getElementById('bd-popup-content-delete').innerHTML = `Bạn có chắc chắn muốn xóa sản phẩm có Mã SP: <strong>${masp}</strong>? Hành động này không thể hoàn tác.`;
+    }
+
+    document.getElementById('btn-ok-delete').onclick = function() {
+        if (deleteId) {
+            if (typeof jQuery !== 'undefined') {
+                $.ajax({
+                    url: '@Url.Action("Delete", "Product")',
+                    type: 'POST',
+                    data: { masp: deleteId },
+                    success: function (response) {
+                        var deleteModalEl = document.getElementById('myDeletePopup');
+                        var deleteModal = bootstrap.Modal.getInstance(deleteModalEl) || new bootstrap.Modal(deleteModalEl);
+                        deleteModal.hide();
+                        if (response.result) {
+                            alert("Xóa thành công!");
+                            const currentPage = @(Model != null ? Model.Pager.CurrentPage : 1);
+                            getListProduct(currentPage);
+                        } else {
+                            alert("Xóa thất bại! Vui lòng kiểm tra Server.");
+                        }
+                        deleteId = null;
+                    },
+                    error: function () {
+                        alert("Lỗi server khi xóa!");
+                        deleteId = null;
+                    }
+                });
+            } else {
+                window.location.reload();
+            }
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        //getListProduct(1);
+    });
+</script>

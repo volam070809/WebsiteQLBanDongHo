@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.DONHANG>
+@using System.Linq
+
+@{
+    ViewBag.Title = "Lịch sử giao dịch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-main">
+            <ol class="breadcrumb">
+                <li><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                <li class="active">Lịch sử giao dịch</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="padding: 30px 0;">
+    <h2 style="margin-bottom: 20px;">Lịch sử giao dịch</h2>
+
+    @if (Model == null || !Model.Any())
+    {
+        <p>Bạn chưa có đơn hàng nào.</p>
+        <a class="btn btn-default" href="@Url.Action("Index", "Home")">Tiếp tục mua sắm</a>
+    }
+    else
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Mã đơn</th>
+                    <th>Ngày đặt</th>
+                    <th>Trạng thái</th>
+                    <th style="text-align:right;">Tổng tiền</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var o in Model)
+                {
+                    <tr>
+                        <td>#@o.MADH</td>
+                        <td>@(o.NGAYDAT.HasValue ? o.NGAYDAT.Value.ToString("dd/MM/yyyy") : "")</td>
+                        <td>@(string.IsNullOrWhiteSpace(o.TRANGTHAI) ? "" : o.TRANGTHAI)</td>
+                        <td style="text-align:right;">@((o.TONGTIEN ?? 0).ToString("N0")) VNĐ</td>
+                        <td style="white-space:nowrap;">
+                            <a class="btn btn-sm btn-primary" href="@Url.Action("OrderDetail", "Account", new { id = o.MADH })">Xem chi tiết</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <a href="@Url.Action("Profile", "Account")" class="btn btn-default">← Quay lại thông tin cá nhân</a>
+</div>

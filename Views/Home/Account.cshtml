@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-main">
+            <ol class="breadcrumb">
+                <li><a href="~/Home/Index">Trang Chủ</a></li>
+                <li class="active">Tài Khoản</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="account">
+    <div class="container">
+        <div class="account-top heading">
+            <h2>TÀI KHOẢN</h2>
+        </div>
+        <div class="account-main">
+            <div class="col-md-6 account-left">
+                <h3>Người Dùng Hiện Tại</h3>
+                <div class="account-bottom">
+                    <input placeholder="Email" type="text" tabindex="3" required>
+                    <input placeholder="Mật Khẩu" type="password" tabindex="4" required>
+                    <div class="address">
+                        <a class="forgot" href="#">Quên Mật Khẩu</a>
+                        <input type="submit" value="Đăng Nhập">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 account-right account-left">
+                <h3>Nười Dùng Mới? Tạo Một Tài Khoản</h3>
+                <p>Bằng cách tạo tài khoản với cửa hàng của chúng tôi, bạn sẽ có thể thực hiện quy trình thanh toán nhanh hơn, lưu trữ nhiều địa chỉ giao hàng, xem và theo dõi đơn hàng trong tài khoản của mình, v.v.</p>
+                <a href="~/Home/Register">Tạo Một Tài Khoản</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

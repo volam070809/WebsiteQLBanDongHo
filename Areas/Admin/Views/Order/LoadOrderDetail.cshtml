@@ -1,0 +1,214 @@
+﻿@model List<WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.CHITIETDONHANG>
+
+@{
+    ViewBag.Title = "LoadOrderDetail";
+    Layout = null;
+    var firstDetail = Model.FirstOrDefault();
+    var order = firstDetail?.DONHANG;
+    var customer = order?.KHACHHANG;
+}
+
+<style>
+    .modal-content-custom {
+        border-radius: 0.75rem;
+        overflow: hidden;
+    }
+
+    .modal-header-custom {
+        background-color: #007bff !important;
+        border-bottom: none;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-close-btn {
+        background-color: #f8f9fa !important;
+        color: #007bff !important;
+        border: 1px solid #007bff !important;
+        font-weight: 600;
+        padding: 0.3rem 0.75rem;
+        border-radius: 0.3rem;
+        font-size: 0.9rem;
+    }
+
+    .modal-close-btn:hover {
+        background-color: #007bff !important;
+        color: #fff !important;
+    }
+
+    .modal-header-custom .modal-title {
+        color: #fff;
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+
+    .modal-body-custom {
+        padding: 1.5rem;
+        background-color: #f8f9fa;
+    }
+
+    .card-header-group {
+        background-color: #e9ecef !important;
+        border-bottom: 1px solid #dee2e6;
+        color: #343a40;
+        font-weight: 600;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    .form-control-sm, .form-control {
+        border-radius: 0.3rem;
+        font-size: 0.9rem;
+    }
+
+    .table-product thead th {
+        background-color: #343a40;
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 0.75rem;
+    }
+
+    .table-product tbody td {
+        vertical-align: middle;
+        padding: 0.75rem;
+    }
+
+    .modal-footer-custom {
+        border-top: 2px solid #ced4da;
+        background-color: #fff;
+        padding: 1rem 1.5rem;
+        justify-content: space-between;
+    }
+
+    .modal-footer-custom h5 {
+        color: #dc3545;
+        font-weight: 700;
+        font-size: 1.35rem;
+    }
+</style>
+
+
+@if (order != null && customer != null)
+{
+    <div class="modal-content modal-content-custom">
+        <div class="modal-header modal-header-custom">
+            <h5 class="modal-title"><i class="fas fa-file-invoice"></i> Chỉnh Sửa Đơn Hàng #@order.MADH</h5>
+            <button type="button" class="btn btn-secondary" onclick="$('#orderDetailModal').modal('hide');"><i class="fas fa-times"></i> Đóng</button>
+        </div>
+
+        @using (Html.BeginForm("UpdateOrder", "Order", FormMethod.Post, new { id = "updateOrderForm" }))
+        {
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="mahd" value="@order.MADH" />
+        <input type="hidden" name="makh" value="@order.MAKH" />
+
+        <div class="modal-body modal-body-custom">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header card-header-group">
+                            <h6 class="m-0 font-weight-bold"><i class="fas fa-user-circle text-info"></i> Thông tin Khách hàng & Giao nhận</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group mb-2">
+                                <label class="small font-weight-bold">Tên người nhận</label>
+                                <input type="text" name="tennguoinhan" value="@customer.TENKH" class="form-control form-control-sm" required />
+                            </div>
+                            <div class="form-group mb-2">
+                                <label class="small font-weight-bold">Số điện thoại</label>
+                                <input type="text" name="sodt" value="@order.SDT" class="form-control form-control-sm" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="small font-weight-bold">Địa chỉ giao</label>
+                                <input type="text" name="diachi" value="@order.DIACHIGIAO" class="form-control form-control-sm" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header card-header-group">
+                            <h6 class="m-0 font-weight-bold"><i class="fas fa-clock text-info"></i> Cập nhật Trạng thái & Thời gian</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group mb-2">
+                                <label class="small font-weight-bold">Trạng thái</label>
+                                <select name="tinhtrang" class="form-control form-control-sm" required>
+                                    <option value="chờ kiểm duyệt" @(order.TRANGTHAI == "chờ kiểm duyệt" ? "selected" : "")>Chờ kiểm duyệt</option>
+                                    <option value="đang giao hàng" @(order.TRANGTHAI == "đang giao hàng" ? "selected" : "")>Đang giao hàng</option>
+                                    <option value="đã giao" @(order.TRANGTHAI == "đã giao" ? "selected" : "")>Đã giao</option>
+                                    <option value="đã hủy" @(order.TRANGTHAI == "đã hủy" ? "selected" : "")>Đã hủy</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label class="small font-weight-bold">Ngày đặt</label>
+                                <input type="text" value="@(order.NGAYDAT?.ToString("dd/MM/yyyy"))" disabled class="form-control form-control-sm bg-light" />
+                            </div>
+                            <div class="form-group">
+                                <label class="small font-weight-bold">Ngày giao (Nếu có)</label>
+                                <input type="date" name="ngaygiao" value="@(order.NGAYGIAO?.ToString("yyyy-MM-dd") ?? "")" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow mt-3">
+                <div class="card-header bg-info text-white">
+                    <h6 class="m-0 font-weight-bold"><i class="fas fa-box-open"></i> Chi tiết Sản phẩm (Đơn hàng)</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-product table-sm table-hover m-0">
+                            <thead>
+                                <tr>
+                                    <th class="small">Mã SP</th>
+                                    <th class="small">Sản phẩm</th>
+                                    <th class="text-right small">Đơn giá</th>
+                                    <th class="text-center small" style="width: 100px;">Số lượng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var detail in Model)
+                                {
+                                    <tr data-masp="@detail.MASP">
+                                        <td class="small">@detail.MASP</td>
+                                        <td class="small">
+                                            <input type="hidden" name="MaspUpdate" value="@detail.MASP" />
+                                            <a href="#" target="_blank">@detail.SANPHAM.TENSP</a> @* Thêm link xem chi tiết SP *@
+                                        </td>
+                                        <td class="text-right small font-weight-bold text-danger">@String.Format("{0:N0}", detail.SANPHAM.DONGIA) VNĐ</td>
+                                        <td class="p-1">
+                                            <input type="number" name="SoluongUpdate" value="@detail.SOLUONG" class="form-control form-control-sm text-center" min="1" required />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer modal-footer-custom">
+            <h5 class="mr-auto">Tổng tiền: @String.Format("{0:N0}", order.TONGTIEN) VNĐ</h5>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu Thay đổi</button>
+        </div>
+        }
+    </div>
+}
+else
+{
+    <div class="modal-content modal-content-custom">
+        <div class="modal-header modal-header-custom">
+            <h5 class="modal-title"><i class="fas fa-exclamation-triangle"></i> Lỗi Tải Đơn Hàng</h5>
+            <button type="button" class="btn btn-secondary" onclick="$('#orderDetailModal').modal('hide');"><i class="fas fa-times"></i> Đóng</button>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-warning m-0">Không tìm thấy thông tin đơn hàng hoặc khách hàng. Vui lòng kiểm tra lại Mã Đơn hàng.</div>
+        </div>
+    </div>
+}

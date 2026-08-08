@@ -1,0 +1,24 @@
+﻿@using WebsiteQLBanDongHo.Common
+
+@{
+    var session = (UserLogin)Session[CommonConstands.USER_SESSION];
+}
+
+@if (session == null)
+{
+    <div class="wl-user-links">
+        <a href="~/dang-nhap">Đăng Nhập</a>
+        <span class="sep">/</span>
+        <a href="~/dang-ky">Đăng Ký</a>
+    </div>
+}
+else
+{
+    <div class="wl-user-links">
+        <a href="@Url.Action("Profile", "Account")">Chào: @session.UserName</a>
+        <span class="sep">/</span>
+        <a href="@Url.Action("Orders", "Account")">Đơn hàng</a>
+        <span class="sep">/</span>
+        <a href="~/Account/Logout">Đăng Xuất</a>
+    </div>
+}

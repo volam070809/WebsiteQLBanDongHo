@@ -1,0 +1,109 @@
+﻿@model WebsiteQLBanDongHo.Areas.Admin.Models.AccountSettingsViewModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Cài đặt tài khoản";
+}
+
+<h2 class="mb-4 text-center text-primary fw-bold">Cài đặt tài khoản</h2>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @ViewBag.Message
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card shadow-sm p-4 mx-auto" style="max-width: 700px;">
+    @using (Html.BeginForm("Settings", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.MATK)
+        <div class="mb-3 row align-items-center">
+            <label class="col-md-3 col-form-label fw-semibold">Tên đăng nhập:</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" value="@Model.TENDN" readonly />
+            </div>
+        </div>
+        <div class="mb-3 row align-items-center">
+            <label class="col-md-3 col-form-label fw-semibold">Tên người dùng:</label>
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.TENKH, new { @class = "form-control", placeholder = "Nhập tên người dùng" })
+            </div>
+        </div>
+        <div class="mb-3 row align-items-center">
+            <label class="col-md-3 col-form-label fw-semibold">Email:</label>
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.EMAIL, new { @class = "form-control", placeholder = "Nhập email" })
+            </div>
+        </div>
+        <div class="mb-3 row align-items-center">
+            <label class="col-md-3 col-form-label fw-semibold">Số điện thoại:</label>
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.SDT, new { @class = "form-control", placeholder = "Nhập số điện thoại" })
+            </div>
+        </div>
+        <div class="mb-3 row align-items-center">
+            <label class="col-md-3 col-form-label fw-semibold">Giới tính:</label>
+            <div class="col-md-9">
+                @Html.DropDownListFor(m => m.GIOITINH, new SelectList(new[]
+                {
+                    new { Value = "Nam", Text = "Nam" },
+                    new { Value = "Nữ", Text = "Nữ" },
+                    new { Value = "Khác", Text = "Khác" }
+                }, "Value", "Text", Model.GIOITINH), "Chọn giới tính", new { @class = "form-select" })
+            </div>
+        </div>
+        <div class="mb-3 row align-items-center">
+            <label class="col-md-3 col-form-label fw-semibold">Địa chỉ:</label>
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.DIACHI, new { @class = "form-control", placeholder = "Nhập địa chỉ" })
+            </div>
+        </div>
+        <div class="mb-3 row align-items-center">
+            <label class="col-md-3 col-form-label fw-semibold">Ngày đăng ký:</label>
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.NGAYDANGKY, "{0:dd/MM/yyyy}", new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="mb-3 row align-items-center">
+            <label class="col-md-3 col-form-label fw-semibold">Trạng thái:</label>
+            <div class="col-md-9">
+                @Html.DropDownListFor(m => m.TRANGTHAI, new SelectList(new[]
+                {
+                    new { Value = "True", Text = "Hoạt động" },
+                    new { Value = "False", Text = "Khoá" }
+                }, "Value", "Text", Model.TRANGTHAI.ToString()), new { @class = "form-select" })
+            </div>
+        </div>
+        <div class="mb-4 row align-items-center">
+            <label class="col-md-3 col-form-label fw-semibold">Loại tài khoản:</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control" value="@Model.LOAITK" readonly />
+            </div>
+        </div>
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary px-5 fw-semibold">Lưu thay đổi</button>
+        </div>
+    }
+</div>
+
+<style>
+    .card {
+        border-radius: 1rem;
+    }
+
+    .form-label, .col-form-label {
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #224abe, #1a2f6c);
+    }
+</style>

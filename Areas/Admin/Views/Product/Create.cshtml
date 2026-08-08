@@ -1,0 +1,456 @@
+﻿@model WebsiteQLBanDongHo.Areas.Admin.Models.ProductViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    :root {
+        --primary-blue: #337ab7;
+        --accent-yellow: #ffc107;
+        --accent-dark: #cc9a00;
+        --border-color: #ddd;
+        --text-color-primary: #333;
+        --text-color-label: #1a1a1a;
+        --success-color: #5cb85c;
+        --danger-color: #d9534f;
+    }
+
+    .panel-default {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background-color: #fff;
+    }
+
+    .panel-body {
+        padding: 30px;
+    }
+
+    .col-lg-12 h1.page-header {
+        font-size: 2em;
+        font-weight: 700;
+        color: var(--text-color-primary);
+        padding-bottom: 10px;
+        margin-bottom: 25px;
+        border-bottom: 3px solid var(--primary-blue);
+    }
+
+    .col-lg-12 p {
+        margin-top: -15px;
+        font-weight: 500;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .control-label {
+        font-weight: 700;
+        color: var(--text-color-label);
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-control {
+        border-radius: 4px;
+        padding: 10px 12px;
+        border: 1px solid var(--border-color);
+        box-shadow: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 0.2rem rgba(51, 122, 183, 0.25);
+    }
+
+    input[readonly].form-control {
+        background-color: #f5f5f5;
+        font-style: italic;
+        color: #777;
+    }
+
+    .col-md-12 h3 {
+        color: var(--primary-blue);
+        font-weight: 700;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-size: 1.6em;
+    }
+
+    .col-md-12 hr {
+        border-top: 2px solid #eee;
+        margin-top: 5px;
+        margin-bottom: 25px;
+    }
+
+    .well-sm {
+        background-color: #fcfcfc;
+        border: 2px dashed #ccc;
+        padding: 15px;
+        text-align: center;
+        min-height: 160px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .well-sm img {
+        border: 1px solid #ddd;
+        margin: auto;
+    }
+
+    .custom-file-upload {
+        border: none;
+        background-color: var(--accent-yellow);
+        color: var(--text-color-primary);
+        padding: 10px 15px;
+        font-weight: 700;
+        transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        width: 100%;
+        text-align: center;
+        border-radius: 4px;
+        display: block;
+        cursor: pointer;
+        text-transform: uppercase;
+        margin-top: 5px;
+    }
+
+    .custom-file-upload:hover {
+        background-color: var(--accent-dark);
+        color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .hidden-file-input {
+        display: none;
+    }
+
+    .text-danger {
+        color: var(--danger-color);
+        font-weight: 600;
+        margin-top: 5px;
+        display: block;
+        font-size: 0.9em;
+    }
+
+    .form-group.text-center {
+        margin-top: 40px;
+    }
+
+    .btn-lg {
+        padding: 12px 35px;
+        font-size: 17px;
+        font-weight: 600;
+        border-radius: 4px;
+        margin: 0 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.2s;
+    }
+
+    .btn-success {
+        background-color: var(--success-color);
+        border-color: #4cae4c;
+    }
+
+    .btn-success:hover {
+        background-color: #449d44;
+        border-color: #398439;
+        transform: translateY(-1px);
+    }
+
+    .btn-danger {
+        background-color: var(--danger-color);
+        border-color: #d43f3a;
+    }
+
+    .btn-danger:hover {
+        background-color: #c9302c;
+        border-color: #ac2925;
+        transform: translateY(-1px);
+    }
+</style>
+
+<div id="page-wrapper">
+    <div class="row page-header">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                <i class="fa fa-plus-circle fa-fw"></i> Thêm mới sản phẩm
+            </h1>
+            <p style="color:green; margin-top: 10px;">@ViewBag.message</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form method="post" action="~/Admin/Product/Create" id="form-create" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="control-label">Tên sản phẩm</label>
+                                    @Html.ValidationMessageFor(model => model.TENSP, "", new { @class = "text-danger" })
+                                    <input type="text" class="form-control" id="TENSP" name="TENSP" onblur="validateName()" placeholder="Nhập tên sản phẩm" value="@Model.TENSP" required />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Số lượng</label>
+                                    @Html.ValidationMessageFor(model => model.SOLUONG, "", new { @class = "text-danger" })
+                                    <input type="number" class="form-control" id="SOLUONG" name="SOLUONG" placeholder="Nhập số lượng" required value="@Model.SOLUONG" min="1" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Mô tả</label>
+                            @Html.ValidationMessageFor(model => model.MOTA, "", new { @class = "text-danger" })
+                            <textarea class="form-control" id="MOTA" name="MOTA" rows="4" placeholder="Nhập mô tả chi tiết sản phẩm" required>@Model.MOTA</textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Thương hiệu</label>
+                                    <select id="MATH" name="MATH" class="form-control">
+                                        @foreach (var item in ViewBag.ThuongHieu)
+                                        {
+                                            <option value="@item.MATH"> @item.TENTH </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Loại sản phẩm</label>
+                                    <select id="MALOAISP" name="MALOAISP" class="form-control">
+                                        @foreach (var item in ViewBag.LoaiSanPham)
+                                        {
+                                            <option value="@item.MALOAISP"> @item.TENLOAISP </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Đơn giá (VNĐ)</label>
+                                    <input type="number" step="100000" class="form-control" id="DONGIA" name="DONGIA" required value="@Model.DONGIA" min="100000" placeholder="Đơn giá (ít nhất 100.000 VNĐ)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3><i class="fa fa-image fa-fw"></i> Quản lý hình ảnh</h3>
+                                <hr />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Hình lớn</label>
+                                    @Html.ValidationMessageFor(model => model.HINHLON, "", new { @class = "text-danger" })
+                                    <input type="text" class="form-control form-group" id="TENHINHLON" name="HINHLON" value="@Model.HINHLON" readonly placeholder="Tên file ảnh lớn" />
+                                    <input type="file" class="hidden-file-input" id="HINHLON" accept="image/*" required />
+                                    <label for="HINHLON" class="custom-file-upload">
+                                        <i class="fa fa-upload"></i> Chọn Hình Lớn
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="control-label">Xem trước hình lớn:</label>
+                                <div class="well well-sm">
+                                    <img id="HINH1" src="" width="200" height="150" style="display:none; border: 1px solid #ccc; max-width: 100%; height: auto;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Hình nhỏ 1</label>
+                                    <input type="file" class="hidden-file-input" id="HINHNHO1" name="HINHNHO1" accept="image/*" required />
+                                    <label for="HINHNHO1" class="custom-file-upload">
+                                        <i class="fa fa-upload"></i> Chọn Hình Nhỏ 1
+                                    </label>
+                                    <div style="margin-top: 10px;">
+                                        <label class="control-label">Xem trước:</label>
+                                        <div class="well well-sm">
+                                            <img id="HINH2" src="" width="180" height="120" style="display:none; border: 1px solid #ccc; max-width: 100%; height: auto;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Hình nhỏ 2</label>
+                                    <input type="file" class="hidden-file-input" id="HINHNHO2" name="HINHNHO2" accept="image/*" required />
+                                    <label for="HINHNHO2" class="custom-file-upload">
+                                        <i class="fa fa-upload"></i> Chọn Hình Nhỏ 2
+                                    </label>
+                                    <div style="margin-top: 10px;">
+                                        <label class="control-label">Xem trước:</label>
+                                        <div class="well well-sm">
+                                            <img id="HINH3" src="" width="180" height="120" style="display:none; border: 1px solid #ccc; max-width: 100%; height: auto;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Hình nhỏ 3</label>
+                                    <input type="file" class="hidden-file-input" id="HINHNHO3" name="HINHNHO3" accept="image/*" required />
+                                    <label for="HINHNHO3" class="custom-file-upload">
+                                        <i class="fa fa-upload"></i> Chọn Hình Nhỏ 3
+                                    </label>
+                                    <div style="margin-top: 10px;">
+                                        <label class="control-label">Xem trước:</label>
+                                        <div class="well well-sm">
+                                            <img id="HINH4" src="" width="180" height="120" style="display:none; border: 1px solid #ccc; max-width: 100%; height: auto;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Đánh giá</label>
+                            @Html.ValidationMessageFor(model => model.DANHGIA, "", new { @class = "text-danger" })
+                            <textarea class="form-control" id="DANHGIA" name="DANHGIA" rows="3" placeholder="Nhập đánh giá tóm tắt về sản phẩm" required>@Model.DANHGIA</textarea>
+                        </div>
+                        <div class="form-group text-center" style="margin-top: 30px;">
+                            <button class="btn btn-success btn-lg" id="btn-ok-create" type="submit">
+                                <i class="fa fa-check"></i> Đồng Ý
+                            </button>
+                            <button class="btn btn-danger btn-lg" id="btn-cancel-create" type="button" onclick="window.history.back();">
+                                <i class="fa fa-times"></i> Bỏ Qua
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#form-create").submit(function () {
+        var filename = getFileName($('#HINHLON').val());
+        var extendFile = filename.split('.')[1];
+        var tam = tenhinh();
+        var hinh = tam + "." + extendFile;
+        document.getElementById("TENHINHLON").value = hinh;
+        Image(hinh);
+        Photo(tam, "1.jpg", "HINHNHO1");
+        Photo(tam, "2.jpg", "HINHNHO2");
+        Photo(tam, "3.jpg", "HINHNHO3");
+    });
+
+    $("#HINHLON").change(function () {
+        var filename = getFileName($('#HINHLON').val());
+        var extendFile = filename.split('.')[1];
+        var hinh = tenhinh() + "." + extendFile;
+        document.getElementById("TENHINHLON").value = hinh;
+        readURL(this, 'HINH1');
+    });
+
+    $("#HINHNHO1").change(function () {
+        readURL(this, 'HINH2');
+    });
+
+    $("#HINHNHO2").change(function () {
+        readURL(this, 'HINH3');
+    });
+
+    $("#HINHNHO3").change(function () {
+        readURL(this, 'HINH4');
+    });
+
+    function getFileName(filePath) {
+        return filePath.substr(filePath.lastIndexOf('\\') + 1);
+    };
+
+    function addZero(x, n) {
+        while (x.toString().length < n) {
+            x = "0" + x;
+        }
+        return x;
+    };
+
+    function readURL(input, id) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#' + id).css('display', 'block');
+                $('#' + id).attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
+
+    function tenhinh() {
+        var d = new Date();
+        var year = d.getFullYear();
+        var mont = addZero(d.getMonth() + 1, 2);
+        var date = addZero(d.getDate(), 2);
+        var h = addZero(d.getHours(), 2);
+        var m = addZero(d.getMinutes(), 2);
+        var s = addZero(d.getSeconds(), 2);
+        var ms = addZero(d.getMilliseconds(), 3);
+        var res = year + mont + date + h + m + s + ms;
+        return res;
+    };
+
+    function Image(tenhinh) {
+        var formData = new FormData();
+        var totalFiles = document.getElementById("HINHLON").files.length;
+        for (var i = 0; i < totalFiles; i++) {
+            var file = document.getElementById("HINHLON").files[i];
+            formData.append("HINHLON", file);
+        }
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Product/PhotoCreate?tenhinh=' + tenhinh,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.result == true) {
+                    alert("upload image success");
+                } else {
+                    alert("upload image hinh lon fail ");
+                }
+            },
+            error: function () {
+                alert("upload image fail");
+            }
+        });
+    }
+
+    function Photo(hinhlon, hinhnho, id) {
+        var formData = new FormData();
+        var totalFiles = document.getElementById(id).files.length;
+        for (var i = 0; i < totalFiles; i++) {
+            var file = document.getElementById(id).files[i];
+            formData.append(id, file);
+        }
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Product/Photo?hinhlon=' + hinhlon + '&hinhnho=' + hinhnho,
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.result == true) {
+                    alert("upload image success");
+                } else {
+                    alert("upload image hinh nho fail");
+                }
+            },
+            error: function () {
+                alert("upload image fail");
+            }
+        });
+    }
+</script>

@@ -1,0 +1,141 @@
+/* Modern UI overrides (v2) */
+
+:root{
+  --wl-bg:#f6f8fb;
+  --wl-surface:#ffffff;
+  --wl-text:#111827;
+  --wl-muted:#6b7280;
+  --wl-brand:#ffb90b;
+  --wl-brand2:#ff8a00;
+  --wl-radius:18px;
+  --wl-shadow:0 12px 32px rgba(17,24,39,.12);
+}
+
+html,body{height:100%;}
+body{
+  background: var(--wl-bg);
+  color: var(--wl-text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Header / nav polish */
+.wl-header{
+  backdrop-filter: blur(10px);
+  background: linear-gradient(180deg, rgba(10,10,10,.90), rgba(10,10,10,.75));
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.wl-brand{ letter-spacing: .6px; }
+.wl-nav-links a{
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+.wl-nav-links a:hover,
+.wl-nav-links a.active{
+  color: var(--wl-brand);
+}
+.wl-dropdown-menu{
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,.25);
+}
+.wl-search input{
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+}
+
+/* Banner section spacing */
+.bnr{
+  margin-bottom: 0;
+}
+
+/* Prevent any floats from affecting following sections */
+.about{ clear: both; }
+
+/* Section title (Home) */
+.about{
+  padding: 72px 0 56px;
+}
+.section-title{
+  text-align: center;
+  margin-bottom: 40px;
+}
+.section-title h2{
+  font-size: 40px;
+  font-weight: 800;
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+.section-title h6{
+  color: var(--wl-muted);
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+.section-title hr{
+  width: 64px;
+  height: 4px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--wl-brand), var(--wl-brand2));
+  margin: 12px auto 0;
+}
+
+/* Best selling grid cards */
+.selling-grid{ padding: 0 0 64px; }
+.selling-grid figure.effect-bubba{
+  border-radius: var(--wl-radius);
+  overflow: hidden;
+  box-shadow: var(--wl-shadow);
+}
+.selling-grid figure.effect-bubba img{
+  transform: scale(1.03);
+  transition: transform .35s ease;
+}
+.selling-grid figure.effect-bubba:hover img{
+  transform: scale(1.08);
+}
+
+/* Buttons / links */
+a.btn, .btn{
+  border-radius: 999px !important;
+}
+
+/* Product cards on home (existing markup: .product-left/.product-main/.product-bottom) */
+.product-main{
+  background: transparent;
+}
+.product-left{
+  margin-bottom: 26px;
+}
+.product-left .product-bottom{
+  background: var(--wl-surface);
+  border-radius: var(--wl-radius);
+  box-shadow: var(--wl-shadow);
+  padding: 18px 18px 20px;
+}
+.product-left .product-bottom h4{
+  font-size: 16px;
+  font-weight: 700;
+  margin: 10px 0 8px;
+}
+.product-left .product-bottom h4 a{ color: var(--wl-text); }
+.product-left .product-bottom h4 a:hover{ color: var(--wl-brand2); }
+.product-left .product-bottom h5,
+.product-left .product-bottom p{
+  color: var(--wl-muted);
+}
+
+/* Fix: ensure slider pagination never sits on top of headings */
+.callbacks_tabs{
+  z-index: 3; /* below header, above banner */
+}
+
+/* Responsive tweaks */
+@media (max-width: 992px){
+  .section-title h2{ font-size: 32px; }
+  .about{ padding: 56px 0 44px; }
+}
+@media (max-width: 576px){
+  .section-title h2{ font-size: 28px; }
+}

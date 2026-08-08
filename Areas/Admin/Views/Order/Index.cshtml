@@ -1,0 +1,545 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #accordionSidebar {
+        background-color: #212121;
+        color: #fff;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .sidebar-brand-text {
+        color: #ffc107 !important;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
+
+    #accordionSidebar .nav-item .nav-link {
+        color: #cccccc;
+        transition: color 0.2s, background-color 0.2s;
+        padding: 0.75rem 1rem;
+        border-left: 5px solid transparent;
+    }
+
+    #accordionSidebar .nav-item .nav-link:hover {
+        color: #fff;
+        background-color: #343a40;
+    }
+
+    #accordionSidebar .nav-item.active .nav-link {
+        color: #212121 !important;
+        background-color: #ffc107;
+        border-left: 5px solid #ffc107;
+        font-weight: 600;
+    }
+
+    #accordionSidebar .nav-item .nav-link i {
+        color: inherit;
+        font-size: 1.1rem;
+        margin-right: 8px;
+    }
+
+    .container-fluid h2.h3 {
+        font-weight: 800;
+        color: #212529;
+        padding-bottom: 12px;
+        border-bottom: 3px solid #007bff;
+        margin-bottom: 0 !important;
+        font-size: 1.75rem;
+    }
+
+    .btn-primary.shadow-sm {
+        background-color: #007bff;
+        border-color: #007bff;
+        font-weight: 600;
+        padding: 0.6rem 1.25rem;
+        border-radius: 0.4rem;
+        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3) !important;
+        transition: all 0.2s;
+    }
+
+    .btn-primary.shadow-sm:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+        transform: translateY(-1px);
+    }
+
+    .card.shadow.mb-4 {
+        border: 1px solid #dee2ee;
+        border-radius: 0.75rem;
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .card-header.bg-white {
+        background-color: #fcfcfc !important;
+        border-bottom: 1px solid #e9ecef;
+        padding: 1.25rem;
+        border-radius: 0.75rem 0.75rem 0 0;
+    }
+
+    .card-header .text-primary {
+        color: #343a40 !important;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .input-group-append button {
+        height: 38px;
+        line-height: 1.5;
+        background-color: #f1f1f1;
+        border: 1px solid #ced4da;
+        border-left: none;
+        color: #495057;
+        border-radius: 0 0.3rem 0.3rem 0;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .form-control.form-control-sm {
+        border-radius: 0.3rem 0 0 0.3rem;
+        height: 38px;
+        font-size: 0.9rem;
+    }
+
+    .card-body.p-0 {
+        padding: 0 !important;
+    }
+
+    .table-responsive table thead th {
+        background-color: #007bff;
+        color: #fff;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        letter-spacing: 0.5px;
+    }
+
+    .table-responsive table tbody tr {
+        font-size: 0.9rem;
+        border-bottom: 1px solid #f1f1f1;
+        transition: background-color 0.2s;
+    }
+
+    .table-responsive table tbody tr:hover {
+        background-color: #f8faff;
+    }
+
+    .table-responsive table tbody tr td {
+        padding: 1rem 1.5rem;
+        vertical-align: middle;
+    }
+
+    .table-responsive table tbody tr td:first-child,
+    .table-responsive table tbody tr td:nth-child(2) {
+        font-weight: 600;
+        color: #007bff;
+    }
+
+    .text-success {
+        font-weight: 700 !important;
+        color: #17a2b8 !important;
+    }
+
+    .btn-sm.btn-outline-info, .btn-sm.btn-outline-danger {
+        border-radius: 0.3rem;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+        border-width: 2px;
+        transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .badge {
+        padding: 0.45em 0.85em;
+        font-weight: 600;
+        border-radius: 0.25rem;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        min-width: 90px;
+        text-align: center;
+    }
+
+    .badge-danger {
+        background-color: #dc3545 !important;
+        color: #fff !important;
+    }
+
+    .badge-success {
+        background-color: #28a745 !important;
+        color: #fff !important;
+    }
+
+    .badge-info {
+        background-color: #17a2b8 !important;
+        color: #fff !important;
+    }
+
+    .badge-warning {
+        background-color: #ffc107 !important;
+        color: #212529 !important;
+    }
+
+    .badge-secondary {
+        background-color: #6c757d !important;
+        color: #fff !important;
+    }
+
+    .pagination-sm {
+        margin-right: 1.5rem;
+        padding: 1rem 0;
+    }
+
+    .pagination-sm .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+        font-weight: 700;
+        box-shadow: 0 2px 4px rgba(0, 123, 255, 0.4);
+    }
+
+    .card-header.bg-success {
+        background-color: #28a745 !important;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .card-header.bg-info {
+        background-color: #17a2b8 !important;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .product-item {
+        padding-bottom: 15px;
+        border-bottom: 1px dashed #e9ecef;
+        margin-bottom: 15px !important;
+        padding-top: 5px;
+    }
+
+    .modal-header.bg-primary {
+        background-color: #007bff !important;
+        border-bottom: none;
+        border-radius: calc(0.5rem - 1px) calc(0.5rem - 1px) 0 0;
+    }
+
+    .modal-header .modal-title {
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .modal-body .card {
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+    }
+
+    .modal-body .card-header {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #495057;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .modal-body .form-group label {
+        font-size: 0.85rem;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #e9ecef;
+        justify-content: space-between;
+        padding: 0.75rem 1.25rem;
+    }
+
+    .modal-footer h5 {
+        color: #dc3545;
+        font-size: 1.25rem;
+    }
+
+    .alert-container {
+        margin-bottom: 20px;
+    }
+
+    .alert-custom {
+        padding: 15px;
+        border-radius: 8px;
+        font-weight: 600;
+        margin-bottom: 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border: none;
+    }
+
+    .alert-success-custom {
+        background-color: #e6ffe6;
+        color: #28a745;
+        border-left: 5px solid #28a745;
+    }
+
+    .alert-danger-custom {
+        background-color: #fff0f0;
+        color: #dc3545;
+        border-left: 5px solid #dc3545;
+    }
+
+    .popup {
+        display: none;
+        position: fixed;
+        z-index: 1050;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .popup-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 0;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+    .popup-header {
+        position: relative;
+        padding: 10px 16px;
+        background-color: #f0ad4e;
+        color: white;
+    }
+
+    .close {
+        color: #fff;
+        font-size: 30px;
+        font-weight: bold;
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 8px 15px;
+        line-height: 1;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #e74c3c;
+        text-decoration: none;
+        cursor: pointer;
+        border-radius: 0 8px 0 0;
+    }
+</style>
+
+<div class="container-fluid pt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+        <h2 class="h3 text-dark"><i class="fas fa-receipt text-primary"></i> Quản Lý Đơn Hàng</h2>
+        <a href="@Url.Action("CreateOrder", "Order")" class="btn btn-primary shadow-sm"><i class="fas fa-plus"></i> Tạo Đơn hàng mới</a>
+    </div>
+
+    <div class="alert-container">
+        @if (ViewBag.message != null)
+        {
+            <div class="alert alert-success-custom alert-custom">@ViewBag.message</div>
+        }
+        @if (ViewBag.error != null)
+        {
+            <div class="alert alert-danger-custom alert-custom">@ViewBag.error</div>
+        }
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Danh Sách Đơn Hàng Gần Đây</h6>
+            <div class="input-group w-50">
+                <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Tìm kiếm theo Mã ĐH, Tên KH,..." />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary btn-sm" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div id="orderListContainer">
+                @Html.Action("TakeListOrderLimit")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="orderDetailModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow-lg"></div>
+    </div>
+</div>
+
+<div id="myDeleteOrderPopup" class="popup">
+    <div class="popup-content">
+        <div class="popup-header">
+            <span id="span-close-order-delete" class="close">&times;</span>
+            <h2 id="hd-popup-content-order-delete">Xóa Đơn hàng</h2>
+        </div>
+        <p id="bd-popup-content-order-delete" style="padding:20px;text-align:center;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 2em; color: #f0ad4e; margin-bottom: 10px; display: block;"></i>
+            Bạn có chắc chắn muốn xóa đơn hàng <span id="order-id-to-delete-text" style="font-weight: 700;"></span> không? Thao tác này sẽ hoàn lại tồn kho và không thể hoàn tác!
+        </p>
+        <div style="text-align:center;padding-bottom:20px;">
+            <button class="btn btn-warning" id="btn-ok-order-delete"> <i class="fas fa-check"></i> Đồng Ý </button>
+            <button class="btn btn-default" id="btn-cancel-order-delete"> <i class="fas fa-times"></i> Bỏ Qua </button>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var orderIdToDelete = 0;
+        var $rowToDelete = null;
+
+        function displayCustomAlert(isSuccess, message) {
+            var alertContainer = $('.alert-container');
+            alertContainer.empty();
+            var alertClass = isSuccess ? 'alert-success-custom' : 'alert-danger-custom';
+            var alertHtml = '<div class="alert ' + alertClass + ' alert-custom">' +
+                message +
+                '</button>' +
+                '</div>';
+            alertContainer.html(alertHtml);
+            setTimeout(function () {
+                alertContainer.find('.alert-custom').fadeOut(500, function () { $(this).remove(); });
+            }, 5000);
+        }
+
+        function showDeleteOrderPopup(id, $row) {
+            orderIdToDelete = id;
+            $rowToDelete = $row;
+            $('#order-id-to-delete-text').text('#' + id);
+            $('#myDeleteOrderPopup').show();
+        }
+
+        function loadOrderList(page, search) {
+            $('#orderListContainer').html('<div class="text-center p-5"><i class="fas fa-spinner fa-spin fa-2x text-primary"></i> Đang tải dữ liệu...</div>');
+            $.ajax({
+                url: '@Url.Action("TakeListOrderLimit", "Order")',
+                type: 'GET',
+                data: { page: page, search: search },
+                success: function(data) {
+                    $('#orderListContainer').html(data);
+                },
+                error: function() {
+                    $('#orderListContainer').html('<div class="alert alert-danger text-center m-4">Lỗi kết nối khi tải danh sách.</div>');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $(document).on('click', '.btn-view-detail', function () {
+                var mahd = $(this).data('mahd');
+                $('#orderDetailModal .modal-content').html('<div class="p-5 text-center"><i class="fas fa-spinner fa-spin fa-2x"></i> Đang tải...</div>');
+                $.get('/Admin/Order/LoadOrderDetail?mahd=' + mahd, function (data) {
+                    $('#orderDetailModal .modal-content').html(data);
+                    $('#orderDetailModal').modal('show');
+                }).fail(function() {
+                    $('#orderDetailModal .modal-content').html('<div class="alert alert-danger p-4">Lỗi tải dữ liệu chi tiết đơn hàng.</div>');
+                });
+            });
+
+            $(document).on('click', '.btn-delete-order', function (e) {
+                e.preventDefault();
+                var mahd = $(this).data('mahd');
+                var mahdInt = parseInt(mahd);
+                if (isNaN(mahdInt) || mahdInt <= 0) {
+                    console.error("Lỗi: Không thể lấy Mã đơn hàng hợp lệ từ data-mahd:", mahd);
+                    displayCustomAlert(false, "Lỗi: Không thể xác định Mã đơn hàng. Vui lòng tải lại trang.");
+                    return;
+                }
+                var $row = $(this).closest('tr');
+                showDeleteOrderPopup(mahdInt, $row);
+            });
+
+            $('#span-close-order-delete, #btn-cancel-order-delete').click(function () {
+                $('#myDeleteOrderPopup').hide();
+            });
+
+            $('#btn-ok-order-delete').click(function () {
+                if (orderIdToDelete > 0) {
+                    $('#myDeleteOrderPopup').hide();
+                    $.post('@Url.Action("DeleteOrder", "Order")', { id: orderIdToDelete }, function (response) {
+                        if (response.success) {
+                            displayCustomAlert(true, "Đơn hàng #" + orderIdToDelete + " đã được xóa/hủy thành công!");
+                            if ($rowToDelete) {
+                                $rowToDelete.fadeOut(400, function() {
+                                    $(this).remove();
+                                    var currentSearch = $('#searchInput').val();
+                                    loadOrderList(1, currentSearch);
+                                });
+                            }
+                        } else {
+                            var message = response.message || "Lỗi không xác định khi xóa đơn hàng.";
+                            displayCustomAlert(false, "Xóa thất bại! " + message);
+                        }
+                    }).fail(function () {
+                        displayCustomAlert(false, "Lỗi kết nối khi xóa đơn hàng.");
+                    });
+                }
+            });
+
+            $('#orderDetailModal').on('hidden.bs.modal', function () {
+                // loadOrderList(1, $('#searchInput').val());
+            });
+
+            var searchTimeout = null;
+            $('#searchInput').on('keyup', function () {
+                var keyword = $(this).val();
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(function () {
+                    loadOrderList(1, keyword);
+                }, 300);
+            });
+
+            $('.input-group-append button').on('click', function () {
+                $('#searchInput').trigger('keyup');
+            });
+
+            $(document).on('click', '.page-link-ajax', function (e) {
+                e.preventDefault();
+                if ($(this).parent().hasClass('disabled')) {
+                    return;
+                }
+                var newPage = $(this).data('page');
+                var currentSearch = $('#searchInput').val();
+                loadOrderList(newPage, currentSearch);
+            });
+
+            $(document).on('submit', '#updateOrderForm', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                var url = form.attr('action');
+                var submitButton = form.find('button[type="submit"]');
+                submitButton.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Đang xử lý...');
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            displayCustomAlert(true, response.message);
+                            $('#orderDetailModal').modal('hide');
+                            var currentSearch = $('#searchInput').val();
+                            loadOrderList(1, currentSearch);
+                        } else {
+                            displayCustomAlert(false, response.message || "Lỗi cập nhật không xác định.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        displayCustomAlert(false, "Lỗi kết nối hoặc lỗi máy chủ khi cập nhật đơn hàng.");
+                    },
+                    complete: function () {
+                        submitButton.prop('disabled', false).html('<i class="fas fa-save"></i> Lưu Thay Đổi');
+                    }
+                });
+            });
+        });
+    </script>
+}

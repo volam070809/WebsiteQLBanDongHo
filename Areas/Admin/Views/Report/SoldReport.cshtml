@@ -1,0 +1,40 @@
+@model IEnumerable<WebsiteQLBanDongHo.Areas.Admin.Models.SoldProductReportRow>
+@using System.Linq
+
+@{
+    ViewBag.Title = "Báo cáo sản phẩm đã bán";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-4">Báo cáo sản phẩm đã bán</h2>
+
+<p class="text-muted">Thống kê theo chi tiết đơn hàng (loại trừ đơn có trạng thái chứa "hủy").</p>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">Chưa có dữ liệu bán hàng để thống kê (hãy kiểm tra đơn hàng và trạng thái).</div>
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Mã SP</th>
+                <th>Tên sản phẩm</th>
+                <th style="text-align:right;">Số lượng bán</th>
+                <th style="text-align:right;">Doanh thu</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var r in Model ?? Enumerable.Empty<WebsiteQLBanDongHo.Areas.Admin.Models.SoldProductReportRow>())
+        {
+            <tr>
+                <td>@r.MASP</td>
+                <td>@r.TENSP</td>
+                <td style="text-align:right;">@r.SO_LUONG_BAN</td>
+                <td style="text-align:right;">@r.DOANH_THU.ToString("0,0") VNĐ</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7f63a4c2823f4a52a4aae5a6d1252906" Name="Diagram1">
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.BINHLUAN" Width="1.5" PointX="8.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.CHITIETDONHANG" Width="1.5" PointX="8.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.CHITIETKM" Width="1.5" PointX="8.25" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.CHITIETSANPHAM" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.DANHGIA" Width="1.5" PointX="11.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.DONHANG" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.KHACHHANG" Width="1.5" PointX="3.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.KHUYENMAI" Width="1.5" PointX="6" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.LOAISANPHAM" Width="1.5" PointX="0.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.LOAITK" Width="1.5" PointX="1.5" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.MAUSAC" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.SANPHAM" Width="1.5" PointX="6" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.SIZE" Width="1.5" PointX="0.75" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.TAIKHOAN" Width="1.5" PointX="1.5" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebsiteQLBanDongHoModel.THUONGHIEU" Width="1.5" PointX="3.75" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_BL_SP" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_BL_TK" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_CTDH_DH" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_CTDH_SP" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_CTKM_KM" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_CTKM_SP" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_CTSP_LSP" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_CTSP_MAU" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_CTSP_SIZE" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_CTSP_SP" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_DG_SP" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_DG_TK" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_DH_KH" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_KH_TK" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_SP_LSP" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_TK_LTK" ManuallyRouted="false" />
+        <AssociationConnector Association="WebsiteQLBanDongHoModel.FK_SP_TH" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

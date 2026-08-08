@@ -1,0 +1,77 @@
+﻿@model WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.DONHANG
+@using System.Collections.Generic
+
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-main">
+            <ol class="breadcrumb">
+                <li><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                <li><a href="@Url.Action("Orders", "Account")">Lịch sử giao dịch</a></li>
+                <li class="active">Đơn hàng #@Model.MADH</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="padding: 30px 0;">
+    <h2 style="margin-bottom: 15px;">Chi tiết đơn hàng #@Model.MADH</h2>
+
+    <div style="margin-bottom: 15px;">
+        <div><strong>Trạng thái:</strong> @Model.TRANGTHAI</div>
+        <div><strong>Ngày đặt:</strong> @(Model.NGAYDAT.HasValue ? Model.NGAYDAT.Value.ToString("dd/MM/yyyy HH:mm") : "")</div>
+        <div><strong>Địa chỉ giao:</strong> @Model.DIACHIGIAO</div>
+        <div><strong>Số điện thoại:</strong> @Model.SDT</div>
+        @if (!string.IsNullOrWhiteSpace(Model.MOTA))
+        {
+            <div><strong>Ghi chú:</strong> @Model.MOTA</div>
+        }
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Sản phẩm</th>
+                <th style="text-align:right;">Đơn giá</th>
+                <th style="text-align:right;">Số lượng</th>
+                <th style="text-align:right;">Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ 
+                int i = 1;
+                var list = Model.CHITIETDONHANGs ?? new List<WebsiteQLBanDongHo.WebsiteQLBanDongHoDomain.DataContext.CHITIETDONHANG>();
+            }
+
+            @foreach (var d in list)
+            {
+                var price = (d.SANPHAM != null && d.SANPHAM.DONGIA.HasValue) ? d.SANPHAM.DONGIA.Value : 0;
+                var qty = d.SOLUONG ?? 0;
+                var line = price * qty;
+
+                <tr>
+                    <td>@i</td>
+                    <td>@(d.SANPHAM != null ? d.SANPHAM.TENSP : ("SP #" + d.MASP))</td>
+                    <td style="text-align:right;">@price.ToString("N0") VNĐ</td>
+                    <td style="text-align:right;">@qty</td>
+                    <td style="text-align:right;">@line.ToString("N0") VNĐ</td>
+                </tr>
+
+                i++;
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" style="text-align:right;"><strong>Tổng tiền</strong></td>
+                <td style="text-align:right;"><strong>@((Model.TONGTIEN ?? 0).ToString("N0")) VNĐ</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <a href="@Url.Action("Orders", "Account")" class="btn btn-default">← Quay lại</a>
+</div>

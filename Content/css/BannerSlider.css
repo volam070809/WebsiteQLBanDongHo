@@ -1,0 +1,180 @@
+﻿/* ===============================
+   CALLBACKS CONTAINER
+   =============================== */
+.callbacks_container
+{
+	position: relative;
+	width: 100%;
+	/* Avoid float-induced overlap with next sections */
+	float: none;
+	display: block;
+	text-align: left;
+	overflow: hidden;
+}
+
+/* Đảm bảo banner luôn có chiều cao tối thiểu để section bên dưới không bị dính */
+.callbacks_container ul.rslides,
+.callbacks_container .callbacks {
+    height: 420px;
+}
+
+@media (max-width: 991px) {
+    .callbacks_container ul.rslides,
+    .callbacks_container .callbacks {
+        height: 320px;
+    }
+}
+
+@media (max-width: 576px) {
+    .callbacks_container ul.rslides,
+    .callbacks_container .callbacks {
+        height: 240px;
+    }
+}
+
+.callbacks {
+    position: relative;
+    list-style: none;
+    overflow: hidden;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.callbacks li {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.callbacks_nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    transition: background-color 0.3s;
+    text-indent: -9999px;
+    overflow: hidden;
+}
+
+.callbacks_nav:hover {
+    background: rgba(6, 107, 195, 0.85);
+}
+
+.callbacks_nav.prev::before {
+    content: "\f053";
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 16px;
+    text-indent: 0;
+    display: block;
+}
+
+.callbacks_nav.next::before {
+    content: "\f054";
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 16px;
+    text-indent: 0;
+    display: block;
+}
+
+.callbacks_nav:active {
+    opacity: 1.0;
+}
+
+.callbacks_nav.prev {
+    left: 20px;
+}
+
+.callbacks_nav.next {
+    right: 20px;
+    left: auto;
+}
+
+.rslides {
+    position: relative;
+    list-style: none;
+    overflow: hidden;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.rslides li {
+    -webkit-backface-visibility: hidden;
+    position: absolute;
+    display: none;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.rslides img {
+    height: 100%;
+    display: block;
+    width: 100%;
+    border: 0;
+    object-fit: cover;
+}
+
+.callbacks_tabs {
+	list-style: none;
+	position: absolute;
+	left: 50%;
+	bottom: 14px;
+	transform: translateX(-50%);
+	margin: 0;
+	padding: 0;
+	z-index: 999;
+	text-align: center;
+	width: auto;
+}
+
+.callbacks_tabs li {
+    display:inline-block;
+}
+
+@media screen and (max-width: 600px) {
+    .callbacks_nav {
+        top: 47%;
+    }
+}
+
+.callbacks_tabs a {
+    visibility: hidden;
+}
+
+.callbacks_tabs a:after {
+    content: "";
+    font-size: 0;
+    visibility: visible;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.callbacks_here a:after {
+    background: #ffb90b;
+    border-color: #ffb90b;
+}
+
+ul.callbacks_tabs.callbacks2_tabs {
+    display: block;
+}
+
+/* WL FIX: ensure home section starts below banner */
+.bnr:after{content:'';display:block;clear:both;}
+.about{clear:both;}

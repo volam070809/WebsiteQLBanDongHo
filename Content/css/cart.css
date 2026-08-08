@@ -1,0 +1,164 @@
+﻿.ckeckout {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #333;
+}
+
+.ckeckout .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.ckeck-top h2 {
+    text-align: center;
+    color: #0d6efd;
+    font-size: 32px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+.cart-items h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #0d6efd;
+    display: inline-block;
+    padding-bottom: 6px;
+}
+
+.head_bag {
+    background-color: #e9ecef;
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.head_bag ul {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.head_bag li {
+    flex: 1;
+    text-align: center;
+    font-size: 15px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 10px 15px;
+    transition: box-shadow 0.2s ease;
+}
+
+.item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.item img {
+    width: 90px;
+    height: 90px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    margin-right: 15px;
+}
+
+.item ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item li {
+    flex: 1;
+    text-align: center;
+    font-size: 15px;
+    color: #333;
+}
+
+.number {
+    width: 60px;
+    padding: 6px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border 0.2s;
+}
+
+.number:focus {
+    border-color: #0d6efd;
+    outline: none;
+}
+
+.delete {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.delete:hover {
+    background-color: #bb2d3b;
+}
+
+#total {
+    display: block;
+    text-align: right;
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
+    margin-top: 25px;
+    border-top: 2px solid #eee;
+    padding-top: 15px;
+}
+
+.button-buy {
+    display: inline-block;
+    float: right;
+    margin-top: 20px;
+    background-color: #0d6efd;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 8px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.button-buy:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-2px);
+}
+
+ul li {
+    list-style: none;
+    font-size: 14px;
+    color: #dc3545;
+}

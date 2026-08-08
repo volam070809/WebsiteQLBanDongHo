@@ -1,0 +1,24 @@
+﻿@using WebsiteQLBanDongHo.Models.Models
+
+@{
+    var sessionCart = (Cart)Session["Cart"];
+    decimal totalMoney = 0;
+    if (sessionCart != null)
+    {
+        totalMoney = (decimal)sessionCart.TotalMoney();
+    }
+}
+
+<div class="cart box_1">
+    <img src="~/images/cart-1.png" alt="" />
+    <a href="~/Cart">
+        @if (totalMoney > 0)
+        {
+            <div class="total">
+                <span>@String.Format("{0:0,0}", totalMoney) VNĐ</span>
+            </div>
+        }
+    </a>
+    <p><a href="~/Cart" class="simpleCart_empty">Giỏ Hàng</a></p>
+    <div class="clearfix"></div>
+</div>

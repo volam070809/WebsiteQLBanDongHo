@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="breadcrumbs-main">
+            <ol class="breadcrumb">
+                <li><a href="~/Home/Index">Trang Chủ</a></li>
+                <li class="active">Thủ Tục Thanh Toán</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="ckeckout">
+    <div class="container">
+        <div class="ckeck-top heading">
+            <h2>THỦ TỤC THANH TOÁN</h2>
+        </div>
+        <div class="ckeckout-top">
+            <div class="cart-items">
+                <h3>Túi Mua Sắm Của Tôi (3)</h3>
+                <script>
+                    $(document).ready(function (c) {
+                        $('.close1').on('click', function (c) {
+                            $('.cart-header').fadeOut('slow', function (c) {
+                                $('.cart-header').remove();
+                            });
+						});
+                    });
+                </script>
+                <script>
+                    $(document).ready(function (c) {
+                        $('.close2').on('click', function (c) {
+                            $('.cart-header1').fadeOut('slow', function (c) {
+                                $('.cart-header1').remove();
+                            });
+						});
+                    });
+                </script>
+                <script>
+                    $(document).ready(function (c) {
+                        $('.close3').on('click', function (c) {
+                            $('.cart-header2').fadeOut('slow', function (c) {
+                                $('.cart-header2').remove();
+                            });
+						});
+                    });
+                </script>
+                <div class="in-check">
+                    <ul class="unit">
+                        <li><span>Mục</span></li>
+                        <li><span>Tên Sản Phẩm</span></li>
+                        <li><span>Đơn Giá</span></li>
+                        <li><span>Chi Tiết Giao Hàng</span></li>
+                        <li></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                    <div class="close1"></div>
+                    <ul class="cart-header">
+                        <li class="ring-in">
+                            <a href="~/Home/Detail"><img src="~/images/c-1.jpg" class="img-responsive" alt=""></a>
+                        </li>
+                        <li><span class="name">Analog Watches</span></li>
+                        <li><span class="cost">$ 290.00</span></li>
+                        <li>
+                            <span>Miễn Phí</span>
+                            <p>Giao hàng trong 2-3 ngày làm việc</p>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                    <div class="close2"></div>
+                    <ul class="cart-header1">
+                        <li class="ring-in">
+                            <a href="~/Home/Detail"><img src="~/images/c-2.jpg" class="img-responsive" alt=""></a>
+                        </li>
+                        <li><span class="name">Analog Watches</span></li>
+                        <li><span class="cost">$ 300.00</span></li>
+                        <li>
+                            <span>Miễn Phí</span>
+                            <p>Giao hàng trong 2-3 ngày làm việc</p>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                    <div class="close3"></div>
+                    <ul class="cart-header2">
+                        <li class="ring-in">
+                            <a href="~/Home/Detail"><img src="~/images/c-3.jpg" class="img-responsive" alt=""></a>
+                        </li>
+                        <li><span class="name">Analog Watches</span></li>
+                        <li><span class="cost">$ 360.00</span></li>
+                        <li>
+                            <span>Miễn Phí</span>
+                            <p>Giao hàng trong 2-3 ngày làm việc</p>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
